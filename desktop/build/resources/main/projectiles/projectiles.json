@@ -1,0 +1,9 @@
+[
+{
+  "name": "Test",
+  "damage": 5,
+  "maxDamage": 15,
+  "lifespan": 10,
+  "atlas": "projectiles.atlas"
+}
+]

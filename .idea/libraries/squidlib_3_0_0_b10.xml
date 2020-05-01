@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="squidlib-3.0.0-b10">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/squidlib-3.0.0-b10.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/RogueGame.iml" filepath="$PROJECT_DIR$/RogueGame.iml" group="RogueGame" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Server2/Server2.iml" filepath="$PROJECT_DIR$/.idea/modules/Server2/Server2.iml" group="RogueGame/Server2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="RogueGame/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" group="RogueGame/desktop" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/html/html.iml" filepath="$PROJECT_DIR$/.idea/modules/html/html.iml" group="RogueGame/html" />
+    </modules>
+  </component>
+</project>

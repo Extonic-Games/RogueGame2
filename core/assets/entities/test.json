@@ -1,0 +1,16 @@
+{
+	"GameObjects":[
+		{
+			"name": "slime",
+			"atlas": "slime.atlas",
+			"health": 30,
+			"type": "enemy",
+			"Behaviors": [
+				{
+				"name": "chase"
+			}, {
+				"name": "shoot",
+				"projectile": "Test"
+			}]
+		}]
+}
