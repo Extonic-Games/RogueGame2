@@ -1,16 +1,30 @@
+[
 {
-	"GameObjects":[
-		{
 			"name": "slime",
 			"atlas": "slime.atlas",
 			"health": 30,
+			"size": 16,
 			"type": "enemy",
-			"Behaviors": [
+			"behaviors": [
 				{
 				"name": "chase"
 			}, {
 				"name": "shoot",
 				"projectile": "Test"
 			}]
-		}]
+		},
+		{
+			"name": "octo",
+			"atlas": "slime.atlas",
+			"health": 30,
+			"size": 48,
+			"type": "enemy",
+			"behaviors": [
+				{
+					"name": "chase"
+				}, {
+					"name": "shoot",
+					"projectile": "OctoShot"
+				}]
 }
+]

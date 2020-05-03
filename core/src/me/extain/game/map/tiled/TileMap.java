@@ -94,6 +94,10 @@ public class TileMap {
                     slimeSpawn = new Vector2(rectangle.x, rectangle.y);
                     gameObjectManager.addGameObject(factory.createObject("slime", slimeSpawn));
                     //System.out.println("Found slime spawn!");
+                } else if (object.getName().equalsIgnoreCase("octo_spawn")) {
+                    slimeSpawn = new Vector2(rectangle.x, rectangle.y);
+                    gameObjectManager.addGameObject(factory.createObject("octo", slimeSpawn));
+                    //System.out.println("Found slime spawn!");
                 }
             }
         }

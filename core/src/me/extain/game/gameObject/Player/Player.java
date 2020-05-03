@@ -96,7 +96,7 @@ public class Player extends GameObject {
             //projectiles.add(new TestProjectile(new Vector2(this.getPosition().x - (dirX / 3f), this.getBody().getPosition().y - (dirY / 3f)), new Vector2(-dirX, -dirY), Box2DHelper.BIT_PROJECTILES));
 
             ShootPacket packet = new ShootPacket();
-            packet.name = "test";
+            packet.name = "OctoShot";
             packet.x = this.getPosition().x - (dirX / 3);
             packet.y = this.getPosition().y - (dirY / 3);
             packet.velX = -dirX;

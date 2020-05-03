@@ -12,6 +12,7 @@ import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Projectile.Projectile;
+import me.extain.game.gameObject.Projectile.ProjectileFactory;
 import me.extain.game.gameObject.Projectile.TestProjectile;
 import me.extain.game.network.Packets.HelloPacket;
 import me.extain.game.network.Packets.HelloPacketACK;
@@ -116,7 +117,7 @@ public class ServerNetworkListener extends Listener {
 
         if (object instanceof ShootPacket) {
             ShootPacket packet = (ShootPacket) object;
-            TestProjectile projectile = new TestProjectile(new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), Box2DHelper.BIT_PROJECTILES);
+            Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), Box2DHelper.BIT_PROJECTILES);
             RogueGameServer.getInstance().getServerWorld().getGameObjectManager().getGameObjects().add(projectile);
             server.sendToAllUDP(packet);
         }

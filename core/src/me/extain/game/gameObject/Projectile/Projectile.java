@@ -1,6 +1,5 @@
 package me.extain.game.gameObject.Projectile;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -9,9 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 
 import me.extain.game.Physics.Box2DHelper;
-import me.extain.game.RogueGame;
 import me.extain.game.gameObject.GameObject;
-import me.extain.game.screens.GameScreen;
 
 public class Projectile extends GameObject {
 
@@ -19,7 +16,7 @@ public class Projectile extends GameObject {
     private float maxDamage;
     private float minDamage;
 
-    private Texture texture;
+    private TextureRegion texture;
 
     private Vector2 velocity;
 
@@ -58,14 +55,12 @@ public class Projectile extends GameObject {
 
         this.getPosition().set(this.getBody().getPosition());
 
-        if (sprite != null)
-            sprite.setPosition(this.getPosition().x - 8, this.getPosition().y - 7);
-
         float angle = MathUtils.radiansToDegrees * MathUtils.atan2(this.getVelocity().y, this.getVelocity().x);
 
         if (sprite != null) {
             sprite.setRotation(angle);
             this.getBody().setTransform(this.getPosition(), this.getBody().getAngle() * angle);
+            sprite.setPosition(this.getPosition().x - 8, this.getPosition().y - 8);
         }
     }
 
@@ -102,7 +97,7 @@ public class Projectile extends GameObject {
         this.minDamage = minDamage;
     }
 
-    public void setTexture(Texture texture) {
+    public void setTexture(TextureRegion texture) {
         this.texture = texture;
     }
 
@@ -122,7 +117,7 @@ public class Projectile extends GameObject {
         return this.isDestroy;
     }
 
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return this.texture;
     }
 }

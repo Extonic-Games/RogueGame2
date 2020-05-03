@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RogueGame.iml" filepath="$PROJECT_DIR$/RogueGame.iml" group="RogueGame" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Server2/Server2.iml" filepath="$PROJECT_DIR$/.idea/modules/Server2/Server2.iml" group="RogueGame/Server2" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="RogueGame/core" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" group="RogueGame/desktop" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/html/html.iml" filepath="$PROJECT_DIR$/.idea/modules/html/html.iml" group="RogueGame/html" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/RogueGame2.iml" filepath="$PROJECT_DIR$/.idea/modules/RogueGame2.iml" group="RogueGame2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Server2/Server2.iml" filepath="$PROJECT_DIR$/.idea/modules/Server2/Server2.iml" group="RogueGame2/Server2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/core.iml" group="RogueGame2/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/desktop.iml" group="RogueGame2/desktop" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/html/html.iml" filepath="$PROJECT_DIR$/.idea/modules/html/html.iml" group="RogueGame2/html" />
     </modules>
   </component>
 </project>

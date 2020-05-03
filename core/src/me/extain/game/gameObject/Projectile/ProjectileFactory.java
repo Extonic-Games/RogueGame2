@@ -1,6 +1,9 @@
 package me.extain.game.gameObject.Projectile;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Json;
@@ -10,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import me.extain.game.Assets;
+import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.RogueGame;
 import me.extain.game.screens.GameScreen;
 
@@ -32,27 +36,24 @@ public class ProjectileFactory {
         projectiles = new Hashtable<>();
 
         for (JsonValue jsonValue : list) {
-            ProjectileWrapper wrapper = new ProjectileWrapper();
-            wrapper.name = jsonValue.getString("name");
-            wrapper.damage = jsonValue.getInt("damage");
-            wrapper.maxDamage = jsonValue.getInt("maxDamage");
-            wrapper.lifeSpan = jsonValue.getInt("lifespan");
-            wrapper.atlas = Assets.getInstance().getAssets().get("projectiles/" + jsonValue.getString("atlas"));
+            ProjectileWrapper wrapper = json.readValue(ProjectileWrapper.class, jsonValue);
 
             projectiles.put(wrapper.name, wrapper);
         }
     }
 
-    public Projectile getProjectile(String name, Vector2 position, Vector2 velocity, Body body) {
+    public Projectile getProjectile(String name, Vector2 position, Vector2 velocity, short mask) {
         ProjectileWrapper wrapper = projectiles.get(name);
 
-        Projectile projectile = new Projectile(position, body);
+        Projectile projectile = new Projectile(position, Box2DHelper.createDynamicBodyCircle(position, 2.5f, mask));
         projectile.setObjectName(wrapper.name);
         projectile.setMinDamage(wrapper.damage);
         projectile.setMaxDamage(wrapper.maxDamage);
-        projectile.setLifeSpan(wrapper.lifeSpan);
-        projectile.setTexture(wrapper.atlas.findRegion(name).getTexture());
+        projectile.setLifeSpan(wrapper.lifespan);
+        TextureAtlas atlas = Assets.getInstance().getAssets().get("projectiles/" + wrapper.atlas);
+        projectile.setTexture(atlas.findRegion(name));
         projectile.setVelocity(velocity);
+
         projectile.createSprite();
 
         return projectile;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.IntMap;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -48,10 +49,14 @@ public class GameObject {
 
     private Body eyesBody;
 
+    private float size;
+
     public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
     private ArrayList<Projectile> removeProjectiles = new ArrayList<Projectile>();
 
     private ArrayList<Behaviors> behaviors = new ArrayList<Behaviors>();
+
+    public static IntMap<GameObject> idMap;
 
     private boolean isBlink = false;
 
@@ -72,7 +77,9 @@ public class GameObject {
         this.speed = 10;
         this.maxHealth = 30;
         this.health = maxHealth;
+        idMap = new IntMap<>();
         this.id = MathUtils.random(1000);
+        idMap.put(id, this);
         //this.objectName = "GameObject";
 
         if (idle != null) {
@@ -90,6 +97,8 @@ public class GameObject {
 
         stateTime += deltaTime;
 
+
+
         this.getBody().setLinearDamping(5f);
 
         if (isMoving) {
@@ -101,6 +110,8 @@ public class GameObject {
         if (this.getBody().getLinearVelocity().x == 0 && this.getBody().getLinearVelocity().y == 0) {
             isMoving = false;
         }
+
+        updateBehaviors(deltaTime);
 
 
         for (Projectile projectile : removeProjectiles) {
@@ -143,11 +154,11 @@ public class GameObject {
 
             if (isBlink && blinkTimer != 0) {
                 batch.setColor((float) Math.abs(Math.sin(alpha)), 0, 0, 1);
-                batch.draw(currentTexture, this.getPosition().x - 8, this.getPosition().y - 5);
+                batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
                 batch.setColor(Color.WHITE);
                 blinkTimer--;
             } else {
-                batch.draw(currentTexture, this.getPosition().x - 8, this.getPosition().y - 5);
+                batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
             }
         }
 
@@ -210,6 +221,14 @@ public class GameObject {
         isMoving = true;
     }
 
+    public GameObject getByID(int id) {
+        GameObject object = idMap.get(id);
+
+        if (object == null) System.out.println("No gameobject with that id exists");
+
+        return object;
+    }
+
     public void addBehavior(Behaviors behavior) {
         this.behaviors.add(behavior);
     }
@@ -246,6 +265,14 @@ public class GameObject {
         return position;
     }
 
+    public void setPosition(Vector2 pos) {
+        this.position.set(pos);
+    }
+
+    public void setPosition(float x, float y) {
+        this.setPosition(new Vector2(x,  y));
+    }
+
     public Body getBody() {
         return body;
     }
@@ -264,6 +291,14 @@ public class GameObject {
 
     public void setHealth(float health) {
         this.health = health;
+    }
+
+    public void setSize(float size) {
+        this.size = size;
+    }
+
+    public float getSize() {
+        return size;
     }
 
     public void setMaxHealth(float maxHealth) { this.maxHealth = maxHealth; }

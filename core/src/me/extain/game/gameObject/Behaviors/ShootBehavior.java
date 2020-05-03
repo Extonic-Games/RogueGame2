@@ -35,12 +35,13 @@ public class ShootBehavior implements Behaviors {
 
             float dirLength = (float) Math.sqrt((targetX - object.getPosition().x) * (targetX - object.getPosition().x) + (targetY - object.getPosition().y) * (targetY - object.getPosition().y));
 
-            float dirX = (targetX - object.getPosition().x) / dirLength * 40;
-            float dirY = (targetY - object.getPosition().y) / dirLength * 40;
+            float dirX = (targetX - object.getPosition().x) / dirLength * 20;
+            float dirY = (targetY - object.getPosition().y) / dirLength * 20;
 
-            if (projectile != null) object.shoot(ProjectileFactory.getInstance().getProjectile(projectile, new Vector2(object.getPosition().x- (dirX / 3f), object.getBody().getPosition().y - (dirY / 3f)), new Vector2(dirX, dirY), Box2DHelper.createDynamicBodyCircle(object.getPosition(), 2.5f, Box2DHelper.MASK_ENEMYPROJ)));
-            else  object.shoot(ProjectileFactory.getInstance().getProjectile("Test", new Vector2(object.getPosition().x, object.getBody().getPosition().y), new Vector2(dirX, dirY), Box2DHelper.createDynamicBodyCircle(object.getPosition(), 2.5f, Box2DHelper.MASK_ENEMYPROJ)));
+            object.shoot(ProjectileFactory.getInstance().getProjectile(projectile, new Vector2(object.getPosition().x, object.getPosition().y), new Vector2(dirX, dirY), Box2DHelper.BIT_ENEMYPROJ));
             shootTimer = object.getShootTimer();
+
+            System.out.println(projectile);
         }
     }
 

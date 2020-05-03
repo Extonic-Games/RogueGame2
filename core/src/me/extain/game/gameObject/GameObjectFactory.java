@@ -28,35 +28,26 @@ public class GameObjectFactory {
     private static HashMap<String, GameObjectWrapper> gameObjects;
     //private ArrayList<GameObjectWrapper> objects;
 
+    private static GameObjectFactory instance = null;
+
     public static GameObjectFactory instantiate() {
-        JsonValue json = new JsonReader().parse(Gdx.files.internal("entities/test.json").readString());
-        //json.addClassTag("Wrapper", GameObjectWrapper.class);
-        //json.setIgnoreUnknownFields(true);
+        if (instance == null) instance = new GameObjectFactory();
 
-        JsonValue objects = json.get("GameObjects");
-
-
-        for (JsonValue object : objects.iterator()) {
-            String projectile = null;
-            ArrayList<String> behaviors = new ArrayList<String>();
-
-            for (JsonValue behavior : object.get("Behaviors").iterator()) {
-                behaviors.add(behavior.getString("name"));
-                if (behavior.has("projectile"))
-                    projectile = behavior.getString("projectile");
-            }
-
-            return new GameObjectFactory(object.getString("name"), object.getString("atlas"), object.getInt("health"), object.getString("type"), behaviors, projectile);
-        }
-
-        //GameObjectFactory factory = json.fromJson(GameObjectFactory.class, Gdx.files.internal("entities/test.json").readString());
-
-        //System.out.println(json.fromJson(GameObjectFactory.class, Gdx.files.internal("entities/test.json").readString()));
-
-        return null;
+        return instance;
     }
 
-    public GameObjectFactory(String name, String atlas, float health, String type, ArrayList<String> behaviors, String projectile) {
+    public GameObjectFactory() {
+        Json json = new Json();
+        ArrayList<JsonValue> list = json.fromJson(ArrayList.class, Gdx.files.internal("entities/test.json"));
+        gameObjects = new HashMap<>();
+
+        for (JsonValue jsonValue : list) {
+            GameObjectWrapper wrapper = json.readValue(GameObjectWrapper.class, jsonValue);
+            gameObjects.put(wrapper.name, wrapper);
+        }
+    }
+
+    public GameObjectFactory(String name, String atlas, float health, float size, String type, ArrayList<String> behaviors, String projectile) {
         GameObjectWrapper wrapper = new GameObjectWrapper();
         gameObjects = new HashMap<String, GameObjectWrapper>();
 
@@ -72,26 +63,31 @@ public class GameObjectFactory {
         }
         wrapper.health = health;
         wrapper.type = type;
+        wrapper.size = size;
         wrapper.behaviors = behaviors;
 
-        if (projectile != null) wrapper.projectile = projectile;
-        else wrapper.projectile = "Test";
+        wrapper.projectile = projectile;
 
-        gameObjects.put(name, wrapper);
+        if (gameObjects.get(name) == null)
+            gameObjects.put(name, wrapper);
+
+        System.out.println(gameObjects.toString());
     }
 
     public static GameObject createObject(String name, Vector2 pos) {
         GameObjectWrapper wrapper = gameObjects.get(name);
 
-        GameObject object = new GameObject(pos, Box2DHelper.createDynamicBodyCircle(pos, 4f, Box2DHelper.BIT_ENEMY));
-        object.setAtlas(wrapper.atlas);
-        object.setWalk(new Animation<TextureRegion>(0.4f, wrapper.atlas.findRegions("walk"), Animation.PlayMode.LOOP));
-        object.setIdle(wrapper.atlas.findRegion("idle"));
+        GameObject object = new GameObject(pos, Box2DHelper.createDynamicBodyCircle(pos, wrapper.size / 3, Box2DHelper.BIT_ENEMY));
+        TextureAtlas atlas = Assets.getInstance().getAssets().get("entities/" + wrapper.atlas);
+        object.setAtlas(atlas);
+        object.setWalk(new Animation<TextureRegion>(0.4f, atlas.findRegions(name + "_walk"), Animation.PlayMode.LOOP));
+        object.setIdle(atlas.findRegion(name + "_idle"));
         object.setHealth(wrapper.health);
+        object.setSize(wrapper.size);
         object.setObjectName(wrapper.name);
         object.setID(MathUtils.random(1000));
 
-        for (int i = 0; i < wrapper.behaviors.size(); i++) {
+     /*   for (int i = 0; i < wrapper.behaviors.size(); i++) {  TODO: FIX BEHAVIORS
             if (wrapper.behaviors.get(i).equalsIgnoreCase("chase")) {
                 object.addBehavior(new ChaseBehavior(object));
             } else if (wrapper.behaviors.get(i).equalsIgnoreCase("shoot")) {
@@ -99,7 +95,7 @@ public class GameObjectFactory {
                 shootBehavior.setProjectile(wrapper.projectile);
                 object.addBehavior(shootBehavior);
             }
-        }
+        } */
         object.createEyes();
 
         return object;

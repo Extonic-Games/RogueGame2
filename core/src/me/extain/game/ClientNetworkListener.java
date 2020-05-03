@@ -12,6 +12,8 @@ import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.GameObjectFactory;
 import me.extain.game.gameObject.Player.RemotePlayer;
+import me.extain.game.gameObject.Projectile.Projectile;
+import me.extain.game.gameObject.Projectile.ProjectileFactory;
 import me.extain.game.gameObject.Projectile.TestProjectile;
 import me.extain.game.network.Packets.HelloPacket;
 import me.extain.game.network.Packets.HelloPacketACK;
@@ -89,9 +91,9 @@ public class ClientNetworkListener extends Listener {
                 //System.out.println(packet.id);
                     if (gameScreen.getTileMap() != null) {
                         for (GameObject objects : gameScreen.getTileMap().getGameObjectManager().getGameObjects()) {
-                            if (objects != null && objects.getID() == packet.id) {
-                                objects.setHealth(packet.health);
-                                objects.getPosition().set(packet.x, packet.y);
+                            if (objects.getByID(packet.id) != null) {
+                                objects.getByID(packet.id).setHealth(packet.health);
+                                objects.getByID(packet.id).setPosition(packet.x, packet.y);
                                 packet = null;
                             }
                         }
@@ -101,8 +103,8 @@ public class ClientNetworkListener extends Listener {
 
         if (object instanceof ShootPacket) {
             ShootPacket packet = (ShootPacket) object;
-            TestProjectile projectile = new TestProjectile(new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), Box2DHelper.BIT_PROJECTILES);
-            if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
+            Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), Box2DHelper.BIT_PROJECTILES);
+             if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
                 GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
                 gameScreen.getGameObjectManager().addGameObject(projectile);
                 //System.out.println("Received shootpacket!");

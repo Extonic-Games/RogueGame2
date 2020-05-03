@@ -33,7 +33,7 @@ public class ChaseBehavior implements Behaviors {
             packet.x = object.getPosition().x;
             packet.y = object.getPosition().y;
             packet.health = object.getHealth();
-            RogueGameServer.getInstance().getServer().sendToAllTCP(packet);
+            //RogueGameServer.getInstance().getServer().sendToAllTCP(packet);
 
             System.out.println("Sent object move packet");
         }

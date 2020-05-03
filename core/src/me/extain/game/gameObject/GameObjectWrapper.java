@@ -9,8 +9,9 @@ import me.extain.game.gameObject.Behaviors.Behaviors;
 public class GameObjectWrapper {
 
     public String name;
-    public TextureAtlas atlas;
+    public String atlas;
     public float health;
+    public float size;
     public String type;
     public String projectile;
     public ArrayList<String> behaviors;

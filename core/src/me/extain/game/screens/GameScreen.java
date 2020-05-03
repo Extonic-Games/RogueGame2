@@ -119,7 +119,7 @@ public class GameScreen implements Screen {
         if (batch != null) {
             batch.setProjectionMatrix(context.getCamera().combined);
 
-            if (player != null)
+            if (tileMap.getGameObjectManager().getPlayer() != null)
                 context.getCamera().position.lerp(new Vector3(tileMap.getGameObjectManager().getPlayer().getPosition(), 0), 0.1f);
 
             tiledMapRenderer.setView(context.getCamera());
