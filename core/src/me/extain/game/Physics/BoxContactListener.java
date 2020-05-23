@@ -10,11 +10,15 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import javax.swing.Box;
 
+import Server.RogueGameServer;
+import me.extain.game.RogueGame;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Projectile.Projectile;
 import me.extain.game.gameObject.item.Item;
+import me.extain.game.gameObject.item.LootBagObject;
 import me.extain.game.map.tiled.TileMapHelper;
+import me.extain.game.screens.GameScreen;
 
 public class BoxContactListener implements ContactListener {
     @Override
@@ -63,26 +67,32 @@ public class BoxContactListener implements ContactListener {
             GameObject object = (GameObject) bodyB.getUserData();
 
             object.setBehaviorTarget(player);
+            System.out.println(object.getID() + " has found " + player.getID());
         } else if (bodyB.getUserData() instanceof Player && fixtureA.getFilterData().categoryBits == Box2DHelper.BIT_ENEMY_SENSOR) {
             Player player = (Player) bodyB.getUserData();
             GameObject object = (GameObject) bodyA.getUserData();
 
-            object.setBehaviorTarget(player);
+            if (RogueGameServer.getInstance().getServer() != null)
+                object.setBehaviorTarget(player);
+            System.out.println(object.getID() + " has found " + player.getID());
         }
 
         if (bodyA.getUserData() instanceof Player && fixtureB.getFilterData().categoryBits == Box2DHelper.BIT_ITEM) {
             Player player = (Player) bodyA.getUserData();
-            Item item = (Item) bodyB.getUserData();
+            LootBagObject item = (LootBagObject) bodyB.getUserData();
 
 
-            item.destroyBody();
+            if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen && ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD() != null)
+                ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().addShowLootbag(item.getUI());
+            System.out.println("Showing UI");
         }
         else if (bodyB.getUserData() instanceof Player && fixtureA.getFilterData().categoryBits == Box2DHelper.BIT_ITEM) {
             Player player = (Player) bodyB.getUserData();
-            Item item = (Item) bodyA.getUserData();
+            LootBagObject item = (LootBagObject) bodyA.getUserData();
 
-
-            item.destroyBody();
+            if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen && ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD() != null)
+                ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().addShowLootbag(item.getUI());
+            System.out.println("Showing UI");
         }
 
     }
@@ -105,6 +115,21 @@ public class BoxContactListener implements ContactListener {
 
             object.setBehaviorTarget(null);
         }
+
+        if (bodyA.getUserData() instanceof Player && fixtureB.getFilterData().categoryBits == Box2DHelper.BIT_ITEM) {
+            Player player = (Player) bodyA.getUserData();
+            LootBagObject item = (LootBagObject) bodyB.getUserData();
+
+
+            ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().hideLootbag();
+        }
+        else if (bodyB.getUserData() instanceof Player && fixtureA.getFilterData().categoryBits == Box2DHelper.BIT_ITEM) {
+            Player player = (Player) bodyB.getUserData();
+            LootBagObject item = (LootBagObject) bodyA.getUserData();
+
+
+            ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().hideLootbag();
+        }
     }
 
     @Override
@@ -121,8 +146,6 @@ public class BoxContactListener implements ContactListener {
         boolean collide = (bitA & colB) != 0 || (colA & bitB) != 0;
 
         contact.setEnabled(collide);
-
-        //contact.setEnabled(true);
     }
 
     @Override

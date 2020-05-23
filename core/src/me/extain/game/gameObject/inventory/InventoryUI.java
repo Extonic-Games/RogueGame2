@@ -106,6 +106,7 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         return false;
     }
 
+
     public void addEntityToInventory(String itemName) {
         Array<Cell> sourceCells = inventorySlotTable.getCells();
         int index = 0;
@@ -131,6 +132,10 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
     public Array<Actor> getInventoryActors() {
         return inventoryActors;
+    }
+
+    public Table getInventorySlotTable() {
+        return inventorySlotTable;
     }
 
 

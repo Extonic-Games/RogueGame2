@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.RogueGame;
@@ -19,23 +20,30 @@ import me.extain.game.network.Packets.UpdatePacket;
 
 public class GameObjectManager {
 
-    public ArrayList<GameObject> objects;
+    public CopyOnWriteArrayList<GameObject> objects;
     public ArrayList<GameObject> removeObjects;
     private ObjectComparator comparator = new ObjectComparator();
 
     public GameObjectManager() {
-        objects = new ArrayList<GameObject>();
-        removeObjects = new ArrayList<GameObject>();
+        objects = new CopyOnWriteArrayList<>();
+        removeObjects = new ArrayList<>();
     }
 
     public void update(float deltaTime) {
         objects.sort(comparator);
 
-        for (GameObject object : removeObjects) {
+        for (final GameObject object : removeObjects) {
             objects.remove(object);
-            Box2DHelper.setBodyToDestroy(object.getBody());
-            if (object.getEyesBody() != null)
-                Box2DHelper.setBodyToDestroy(object.getEyesBody());
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    if (object.getBody() != null)
+                        Box2DHelper.getWorld().destroyBody(object.getBody());
+                    if (object.getEyesBody() != null)
+                        Box2DHelper.getWorld().destroyBody(object.getEyesBody());
+                }
+            });
+
         }
 
         removeObjects.clear();
@@ -43,7 +51,6 @@ public class GameObjectManager {
         for (GameObject object : objects) {
             if (object.isDestroy()) {
                 removeObjects.add(object);
-                object.clearProjectiles();
             } else {
                 object.update(deltaTime);
             }
@@ -54,10 +61,13 @@ public class GameObjectManager {
     public void updateServer(Server server, float deltaTime) {
         for (GameObject object : removeObjects) {
             objects.remove(object);
-            Box2DHelper.setBodyToDestroy(object.getBody());
 
-            if (object.isHasEyes())
-                Box2DHelper.setBodyToDestroy(object.getEyesBody());
+            if (Box2DHelper.getWorld() != null && !Box2DHelper.getWorld().isLocked()) {
+                Box2DHelper.getWorld().destroyBody(object.getBody());
+
+                if (object.isHasEyes())
+                    Box2DHelper.getWorld().destroyBody(object.getEyesBody());
+            }
         }
 
         removeObjects.clear();
@@ -65,17 +75,15 @@ public class GameObjectManager {
         for (GameObject object : objects) {
             if (object.isDestroy()) {
                 removeObjects.add(object);
-                //object.clearProjectiles();
-                Gdx.app.log("Server", "Removing object: " + object.getName());
             } else {
-                object.update(deltaTime);
-                object.updateBehaviors(deltaTime);
+                if (!(object instanceof Projectile))
+                object.updateServer(deltaTime);
             }
         }
     }
 
     public void render(SpriteBatch batch) {
-        for (GameObject object : objects) {
+         for (GameObject object : objects) {
             object.render(batch);
         }
     }
@@ -102,7 +110,7 @@ public class GameObjectManager {
         }
     }
 
-    public ArrayList<GameObject> getGameObjects() {
+    public CopyOnWriteArrayList<GameObject> getGameObjects() {
         return objects;
     }
 

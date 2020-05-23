@@ -26,5 +26,33 @@
 					"name": "shoot",
 					"projectile": "OctoShot"
 				}]
-}
+},
+	{
+		"name": "angryblob",
+		"atlas": "slime.atlas",
+		"health": 30,
+		"size": 16,
+		"type": "enemy",
+		"behaviors": [
+			{
+				"name": "chase"
+			}, {
+				"name": "shoot",
+				"projectile": "OctoShot"
+			}]
+	},
+	{
+		"name": "nightcrawler",
+		"atlas": "slime.atlas",
+		"health": 30,
+		"size": 48,
+		"type": "enemy",
+		"behaviors": [
+			{
+				"name": "chase"
+			}, {
+				"name": "shoot",
+				"projectile": "OctoShot"
+			}]
+	}
 ]

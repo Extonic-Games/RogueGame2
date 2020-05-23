@@ -2,6 +2,7 @@ package me.extain.game.gameObject.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import me.extain.game.Assets;
+import me.extain.game.gameObject.Projectile.ProjectileFactory;
 import me.extain.game.network.Packets.MovePacket;
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.RogueGame;
@@ -29,6 +31,10 @@ public class Player extends GameObject {
 
     private Vector2 oldPos;
 
+    private boolean isFlip = false;
+
+    private Sprite sprite;
+
     public Player(Vector2 position) {
         super(position, Box2DHelper.createDynamicBodyCircle(position, 4f, Box2DHelper.BIT_PLAYER));
 
@@ -46,6 +52,7 @@ public class Player extends GameObject {
             System.out.println(atlas.toString());
 
             walk = atlas.findRegion("player-idle");
+            sprite = new Sprite(walk);
         }
 
     }
@@ -54,6 +61,14 @@ public class Player extends GameObject {
         super.update(deltaTime);
 
         this.getBody().setLinearDamping(5);
+
+        if (this.getBody().getLinearVelocity().x < 0f && !isFlip) {
+            this.sprite.flip(true, false);
+            isFlip = true;
+        } else if (this.getBody().getLinearVelocity().x > 0f && isFlip) {
+            this.sprite.flip(true, false);
+            isFlip = false;
+        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             this.getBody().setLinearVelocity(this.getBody().getLinearVelocity().x, getSpeed());
@@ -75,6 +90,7 @@ public class Player extends GameObject {
             ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().displayInventory();
         }
 
+
         if (shootTimer != 0) shootTimer--;
 
        float mouseX = Gdx.input.getX();
@@ -93,10 +109,12 @@ public class Player extends GameObject {
 
             float angle = MathUtils.radiansToDegrees * MathUtils.atan2(dirX - this.getPosition().x, dirY - this.getPosition().y);
 
-            //projectiles.add(new TestProjectile(new Vector2(this.getPosition().x - (dirX / 3f), this.getBody().getPosition().y - (dirY / 3f)), new Vector2(-dirX, -dirY), Box2DHelper.BIT_PROJECTILES));
+            //projectiles.add(ProjectileFactory.getInstance().getProjectile("OctoShot", new Vector2(this.getPosition().x - (dirX / 3f), this.getBody().getPosition().y - (dirY / 3f)), new Vector2(-dirX, -dirY), Box2DHelper.BIT_PROJECTILES));
 
             ShootPacket packet = new ShootPacket();
-            packet.name = "OctoShot";
+            packet.name = "Test";
+            packet.id = this.getID();
+            packet.mask = Box2DHelper.BIT_PROJECTILES;
             packet.x = this.getPosition().x - (dirX / 3);
             packet.y = this.getPosition().y - (dirY / 3);
             packet.velX = -dirX;
@@ -111,8 +129,9 @@ public class Player extends GameObject {
         if (oldPos.x != this.getPosition().x || oldPos.y != this.getPosition().y) {
             MovePacket movePacket = new MovePacket();
             oldPos.set(this.getPosition());
-            movePacket.x = oldPos.x;
-            movePacket.y = oldPos.y;
+            sprite.setPosition(getPosition().x - 8, getPosition().y - 5);
+            movePacket.x = getBody().getLinearVelocity().x;
+            movePacket.y = getBody().getLinearVelocity().y;
             RogueGame.getInstance().getClient().sendUDP(movePacket);
         }
 
@@ -126,10 +145,10 @@ public class Player extends GameObject {
     public void render(SpriteBatch batch) {
         super.render(batch);
         if (walk != null)
-            batch.draw(walk, this.getPosition().x - 8, this.getPosition().y - 5);
+            sprite.draw(batch);
     }
 
     public void setPosition(float x, float y) {
-        this.getPosition().set(x, y);
+        this.setPosition(new Vector2(x, y));
     }
 }

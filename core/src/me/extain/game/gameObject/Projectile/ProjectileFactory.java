@@ -45,18 +45,35 @@ public class ProjectileFactory {
     public Projectile getProjectile(String name, Vector2 position, Vector2 velocity, short mask) {
         ProjectileWrapper wrapper = projectiles.get(name);
 
-        Projectile projectile = new Projectile(position, Box2DHelper.createDynamicBodyCircle(position, 2.5f, mask));
-        projectile.setObjectName(wrapper.name);
-        projectile.setMinDamage(wrapper.damage);
-        projectile.setMaxDamage(wrapper.maxDamage);
-        projectile.setLifeSpan(wrapper.lifespan);
-        TextureAtlas atlas = Assets.getInstance().getAssets().get("projectiles/" + wrapper.atlas);
-        projectile.setTexture(atlas.findRegion(name));
-        projectile.setVelocity(velocity);
+        if (wrapper != null) {
+            Projectile projectile = new Projectile(position, Box2DHelper.createDynamicBodyCircle(position, 2.5f, mask));
+            projectile.setObjectName(wrapper.name);
+            projectile.setMinDamage(wrapper.damage);
+            projectile.setMaxDamage(wrapper.maxDamage);
+            projectile.setLifeSpan(wrapper.lifespan);
+            TextureAtlas atlas = Assets.getInstance().getAssets().get("projectiles/" + wrapper.atlas);
+            projectile.setTexture(atlas.findRegion(name));
+            projectile.setVelocity(velocity);
 
-        projectile.createSprite();
+            projectile.createSprite();
 
-        return projectile;
+            return projectile;
+        } else {
+            wrapper = projectiles.get("Test");
+
+            Projectile projectile = new Projectile(position, Box2DHelper.createDynamicBodyCircle(position, 2.5f, mask));
+            projectile.setObjectName(wrapper.name);
+            projectile.setMinDamage(wrapper.damage);
+            projectile.setMaxDamage(wrapper.maxDamage);
+            projectile.setLifeSpan(wrapper.lifespan);
+            TextureAtlas atlas = Assets.getInstance().getAssets().get("projectiles/" + wrapper.atlas);
+            projectile.setTexture(atlas.findRegion(name));
+            projectile.setVelocity(velocity);
+
+            projectile.createSprite();
+
+            return projectile;
+        }
     }
 
 

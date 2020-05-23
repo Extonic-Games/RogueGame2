@@ -37,7 +37,7 @@ public class ScreenManager {
 
     public void dispose() {
         for (HashMap.Entry<String, Screen> entry : screens.entrySet()) {
-            entry.getValue().dispose();
+                entry.getValue().dispose();
         }
     }
 

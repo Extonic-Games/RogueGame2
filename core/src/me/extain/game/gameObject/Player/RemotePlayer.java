@@ -1,5 +1,6 @@
 package me.extain.game.gameObject.Player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,7 +22,9 @@ public class RemotePlayer extends GameObject {
         super(position, Box2DHelper.createDynamicBodyCircle(position, 4f, Box2DHelper.BIT_PLAYER));
 
         this.setObjectName("RemotePlayer");
-        this.getBody().setUserData(this);
+
+        if (this.getBody() != null)
+            this.getBody().setUserData(this);
 
         if (Assets.getInstance().getAssets().isLoaded("entities/player.atlas")) {
             atlas = Assets.getInstance().getAssets().get("entities/player.atlas");
@@ -36,12 +39,8 @@ public class RemotePlayer extends GameObject {
 
     @Override
     public void render(SpriteBatch batch) {
-        super.render(batch);
+        //super.render(batch);
         if (walk2 != null)
             batch.draw(walk2, this.getBody().getPosition().x - 8, this.getBody().getPosition().y - 5);
-    }
-
-    public void setPosition(float x, float y) {
-        this.getBody().setTransform(new Vector2(x, y), 0f);
     }
 }

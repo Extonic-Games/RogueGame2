@@ -15,6 +15,7 @@ import me.extain.game.Assets;
 import me.extain.game.gameObject.GameObjectFactory;
 import me.extain.game.gameObject.GameObjectManager;
 import me.extain.game.gameObject.Player.RemotePlayer;
+import me.extain.game.gameObject.item.LootBagObject;
 import me.extain.game.network.Packets.JoinPacket;
 import me.extain.game.network.Packets.SendObjectsPacket;
 import me.extain.game.Physics.Box2DHelper;
@@ -75,12 +76,15 @@ public class GameScreen implements Screen {
 
         tileMap.getGameObjectManager().addGameObject(player);
 
+        tileMap.getGameObjectManager().addGameObject(new LootBagObject(tileMap.getPlayerSpawn()));
+
         context.getCamera().position.set(player.getPosition(), 0);
 
         JoinPacket joinPacket = new JoinPacket();
         ServerPlayer player2 = new ServerPlayer();
         player.setPosition(player.getPosition().x, player.getPosition().y);
         player2.setID(context.getClient().getID());
+        player.setID(context.getClient().getID());
         player2.setPosition(player.getPosition().x, player.getPosition().y);
         joinPacket.player = player2;
         context.getClient().sendTCP(joinPacket);
@@ -88,27 +92,26 @@ public class GameScreen implements Screen {
 
     public void update(float delta) {
         //SendObjectsPacket packet = new SendObjectsPacket();
-        //context.getClient().sendTCP(packet);
-        if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
-            playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
-            playerHUD.getInventoryUI().addEntityToInventory("stick");
-
-            InputMultiplexer multiplexer = new InputMultiplexer();
-            multiplexer.addProcessor(playerHUD.getStage());
-            Gdx.input.setInputProcessor(multiplexer);
-        }
-
-        if (tileMap != null)
-            tileMap.update(delta);
-
-        gameObjectManager.update(delta);
-
+        //context.getClient().sendUDP(packet);
         box2DHelper.step();
+
+            if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
+                playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
+                playerHUD.getInventoryUI().addEntityToInventory("stick");
+
+                InputMultiplexer multiplexer = new InputMultiplexer();
+                multiplexer.addProcessor(playerHUD.getStage());
+                Gdx.input.setInputProcessor(multiplexer);
+            }
+
+            if (tileMap != null)
+                tileMap.update(delta);
+
+            gameObjectManager.update(delta);
     }
 
     @Override
     public void render(float delta) {
-
         update(delta);
         context.getCamera().update();
 
@@ -171,8 +174,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        //tileMap.dispose();
+        if (batch != null)
+            batch.dispose();
+        if (tileMap != null)
+            tileMap.dispose();
     }
 
     public PlayerHUD getPlayerHUD() {

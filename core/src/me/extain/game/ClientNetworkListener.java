@@ -1,6 +1,7 @@
 package me.extain.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -8,9 +9,12 @@ import com.esotericsoftware.kryonet.Listener;
 
 import org.json.Test;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.GameObjectFactory;
+import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.gameObject.Projectile.Projectile;
 import me.extain.game.gameObject.Projectile.ProjectileFactory;
@@ -48,14 +52,14 @@ public class ClientNetworkListener extends Listener {
         }
 
         if (object instanceof MovePacket) {
-            MovePacket ack = (MovePacket) object;
+            final MovePacket ack = (MovePacket) object;
             if (RogueGame.getInstance().getOtherPlayers().get(ack.id) != null) {
-                RogueGame.getInstance().getOtherPlayers().get(ack.id).setPosition(ack.x, ack.y);
-            } else {
-                if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
-                    RemotePlayer remotePlayer = new RemotePlayer(new Vector2(ack.x, ack.y));
-                    RogueGame.getInstance().getOtherPlayers().put(ack.id, remotePlayer).setPosition(ack.x, ack.y);
-                }
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        RogueGame.getInstance().getOtherPlayers().get(ack.id).getBody().setTransform(ack.x, ack.y, 0f);
+                    }
+                });
             }
         }
 
@@ -70,7 +74,7 @@ public class ClientNetworkListener extends Listener {
 
         if (object instanceof PlayerDisconnected) {
             PlayerDisconnected playerDisconnected = (PlayerDisconnected) object;
-            Box2DHelper.setBodyToDestroy(RogueGame.getInstance().getOtherPlayers().get(playerDisconnected.id).getBody());
+            Box2DHelper.getWorld().destroyBody(RogueGame.getInstance().getOtherPlayers().get(playerDisconnected.id).getBody());
             RogueGame.getInstance().getOtherPlayers().remove(playerDisconnected.id);
         }
 
@@ -79,34 +83,48 @@ public class ClientNetworkListener extends Listener {
             if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
                 GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
                 GameObject gameObject = GameObjectFactory.createObject(packet.name, new Vector2(packet.x, packet.y));
+                gameObject.setID(packet.id);
                 gameScreen.getTileMap().getGameObjectManager().addGameObject(gameObject);
             }
         }
 
         if (object instanceof UpdatePacket) {
-            UpdatePacket packet = (UpdatePacket) object;
-            if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
-                GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
+            final UpdatePacket packet = (UpdatePacket) object;
+            GameScreen gameScreen = null;
+
+                if (RogueGame.getInstance().getScreenManager() != null && RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen)
+                    gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
 
                 //System.out.println(packet.id);
-                    if (gameScreen.getTileMap() != null) {
-                        for (GameObject objects : gameScreen.getTileMap().getGameObjectManager().getGameObjects()) {
-                            if (objects.getByID(packet.id) != null) {
-                                objects.getByID(packet.id).setHealth(packet.health);
-                                objects.getByID(packet.id).setPosition(packet.x, packet.y);
-                                packet = null;
-                            }
+                    if (gameScreen != null && gameScreen.getTileMap() != null) {
+                        for (final GameObject objects : gameScreen.getTileMap().getGameObjectManager().getGameObjects()) {
+                            //System.out.println(packet.id);
+                            Gdx.app.postRunnable(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if(objects.getID() == packet.id) {
+                                        // Lerp server position with client position. Removes jitteriness
+                                        objects.getBody().setTransform(objects.getPosition().lerp(new Vector2(packet.x, packet.y), 0.1f), 0);
+                                        objects.setHealth(packet.health);
+
+                                        if (objects.getHealth() <= 0) objects.setDestroy(true);
+                                    }
+                                }
+                            });
+
                         }
                     }
-            }
         }
 
         if (object instanceof ShootPacket) {
             ShootPacket packet = (ShootPacket) object;
-            Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), Box2DHelper.BIT_PROJECTILES);
+            Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), packet.mask);
+            projectile.setDamageRange(packet.damage);
              if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
                 GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
-                gameScreen.getGameObjectManager().addGameObject(projectile);
+
+                if (!Box2DHelper.getWorld().isLocked())
+                    gameScreen.getGameObjectManager().addGameObject(projectile);
                 //System.out.println("Received shootpacket!");
             }
         }

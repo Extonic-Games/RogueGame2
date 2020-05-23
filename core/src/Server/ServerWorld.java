@@ -8,8 +8,11 @@ import com.esotericsoftware.kryonet.Server;
 import java.util.HashMap;
 
 import me.extain.game.Physics.Box2DHelper;
+import me.extain.game.RogueGame;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.GameObjectManager;
+import me.extain.game.gameObject.Player.Player;
+import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.map.tiled.TileMap;
 import me.extain.game.network.Packets.SendObjectsPacket;
 
@@ -32,6 +35,8 @@ public class ServerWorld {
     public void update() {
         tileMap.updateServer(server, Gdx.graphics.getDeltaTime());
 
+        gameObjectManager.updateServer(server, Gdx.graphics.getDeltaTime());
+
         box2DHelper.step();
     }
 
@@ -40,6 +45,10 @@ public class ServerWorld {
 
     public GameObjectManager getGameObjectManager() {
         return tileMap.getGameObjectManager();
+    }
+
+    public GameObjectManager gameObjectManager2() {
+        return gameObjectManager;
     }
 
 }

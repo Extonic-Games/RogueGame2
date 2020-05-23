@@ -1,5 +1,6 @@
 package me.extain.game.Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -41,13 +42,16 @@ public class Box2DHelper {
     //public static final short GROUP_ENEMY = -2;
     //public static final short GROUP_OBJECTS = 1;
 
-    private BoxContactListener boxContactListener = new BoxContactListener();
+    private BoxContactListener boxContactListener;
 
-    private static ArrayList<Body> bodiesToDestroy = new ArrayList<Body>();
+    private static ArrayList<Body> bodiesToDestroy;
 
     public void createWorld() {
         world = new World(new Vector2(0,0), true);
         debugRenderer = new Box2DDebugRenderer();
+
+        boxContactListener = new BoxContactListener();
+        bodiesToDestroy = new ArrayList<>();
 
         world.setContactListener(boxContactListener);
     }
@@ -57,16 +61,6 @@ public class Box2DHelper {
     }
 
     public void step() {
-            for (int i = 0; i < bodiesToDestroy.size(); i++) {
-                Body body = bodiesToDestroy.get(i);
-
-                if (body != null && bodiesToDestroy.size() > 0) {
-                    world.destroyBody(body);
-                    bodiesToDestroy.remove(body);
-                }
-            }
-
-
         world.step(1/60f, 6, 2);
     }
 
@@ -95,11 +89,22 @@ public class Box2DHelper {
     }
 
     public static Body createSensorCircle(Vector2 pos, float radius, short mask) {
-        BodyDef bodyDef = new BodyDef();
+        final BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(pos);
 
-        Body body = world.createBody(bodyDef);
+        Body body = null;
+
+        if (world.isLocked()) {
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    world.createBody(bodyDef);
+                }
+            });
+        } else {
+            body = world.createBody(bodyDef);
+        }
 
         CircleShape circle = new CircleShape();
         circle.setRadius(radius);
@@ -127,41 +132,53 @@ public class Box2DHelper {
     }
 
     public static Body createDynamicBodyCircle(Vector2 pos, float radius, short mask) {
-        BodyDef bodyDef = new BodyDef();
+        final BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(pos);
 
-        Body body = world.createBody(bodyDef);
+        Body body = null;
 
-        CircleShape circle = new CircleShape();
-        circle.setRadius(radius);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circle;
-        fixtureDef.restitution = 0f;
-
-        if (mask == BIT_PLAYER) {
-            fixtureDef.filter.categoryBits = BIT_PLAYER;
-            fixtureDef.filter.maskBits = MASK_PLAYER;
-            //fixtureDef.filter.groupIndex = GROUP_PLAYER;
-        }
-        else if (mask == BIT_ENEMY) {
-            fixtureDef.filter.categoryBits = BIT_ENEMY;
-            fixtureDef.filter.maskBits = MASK_ENEMY;
-            //fixtureDef.filter.groupIndex = GROUP_ENEMY;
-        }
-        else if (mask == BIT_PROJECTILES) {
-            fixtureDef.filter.categoryBits = BIT_PROJECTILES;
-            fixtureDef.filter.maskBits = MASK_PROJECTILES;
-        }
-        else if (mask == BIT_ENEMYPROJ) {
-            fixtureDef.filter.categoryBits = BIT_ENEMYPROJ;
-            fixtureDef.filter.maskBits = MASK_ENEMYPROJ;
+        if (world != null && world.isLocked()) {
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    world.createBody(bodyDef);
+                }
+            });
+        } else {
+            if (world != null)
+                body = world.createBody(bodyDef);
         }
 
+        if (body != null) {
+            CircleShape circle = new CircleShape();
+            circle.setRadius(radius);
 
-        Fixture fixture = body.createFixture(fixtureDef);
-        circle.dispose();
+            FixtureDef fixtureDef = new FixtureDef();
+            fixtureDef.shape = circle;
+            fixtureDef.restitution = 0f;
+
+            if (mask == BIT_PLAYER) {
+                fixtureDef.filter.categoryBits = BIT_PLAYER;
+                fixtureDef.filter.maskBits = MASK_PLAYER;
+                //fixtureDef.filter.groupIndex = GROUP_PLAYER;
+            } else if (mask == BIT_ENEMY) {
+                fixtureDef.filter.categoryBits = BIT_ENEMY;
+                fixtureDef.filter.maskBits = MASK_ENEMY;
+                //fixtureDef.filter.groupIndex = GROUP_ENEMY;
+            } else if (mask == BIT_PROJECTILES) {
+                fixtureDef.filter.categoryBits = BIT_PROJECTILES;
+                fixtureDef.filter.maskBits = MASK_PROJECTILES;
+            } else if (mask == BIT_ENEMYPROJ) {
+                fixtureDef.filter.categoryBits = BIT_ENEMYPROJ;
+                fixtureDef.filter.maskBits = MASK_ENEMYPROJ;
+            }
+
+
+            Fixture fixture = body.createFixture(fixtureDef);
+            circle.dispose();
+
+        }
 
         return body;
     }

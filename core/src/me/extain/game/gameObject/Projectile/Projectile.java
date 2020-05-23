@@ -24,8 +24,6 @@ public class Projectile extends GameObject {
 
     private float lifeSpan = 6 * 16;
 
-    private boolean faceUp, faceLeft, faceDown, faceRight;
-
     public Sprite sprite;
 
 
@@ -35,7 +33,8 @@ public class Projectile extends GameObject {
         this.minDamage = 2;
         this.maxDamage = 5;
 
-        this.getBody().setUserData(this);
+        if (getBody() != null)
+            this.getBody().setUserData(this);
         this.setObjectName("Projectile");
 
         this.damageRange = MathUtils.random(maxDamage - minDamage + 1);
@@ -48,16 +47,16 @@ public class Projectile extends GameObject {
 
         if (lifeSpan == 0) setDestroy(true);
 
-        if (velocity != null)  {
+        if (velocity != null && this.getBody() != null)  {
             this.getBody().setLinearDamping(2f);
             this.getBody().setLinearVelocity(velocity);
-        }
 
-        this.getPosition().set(this.getBody().getPosition());
+            this.getPosition().set(this.getBody().getPosition());
+        }
 
         float angle = MathUtils.radiansToDegrees * MathUtils.atan2(this.getVelocity().y, this.getVelocity().x);
 
-        if (sprite != null) {
+        if (sprite != null && this.getBody() != null) {
             sprite.setRotation(angle);
             this.getBody().setTransform(this.getPosition(), this.getBody().getAngle() * angle);
             sprite.setPosition(this.getPosition().x - 8, this.getPosition().y - 8);
@@ -103,6 +102,10 @@ public class Projectile extends GameObject {
 
     public float getDamageRange() {
         return this.damageRange;
+    }
+
+    public void setDamageRange(float damage) {
+        this.damageRange = damage;
     }
 
     public float getMaxDamage() {

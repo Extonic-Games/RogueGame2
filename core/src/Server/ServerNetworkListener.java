@@ -9,8 +9,10 @@ import com.esotericsoftware.kryonet.Server;
 import java.util.HashMap;
 
 import me.extain.game.Physics.Box2DHelper;
+import me.extain.game.RogueGame;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.Player.Player;
+import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.gameObject.Projectile.Projectile;
 import me.extain.game.gameObject.Projectile.ProjectileFactory;
 import me.extain.game.gameObject.Projectile.TestProjectile;
@@ -27,7 +29,7 @@ import me.extain.game.network.Packets.ShootPacket;
 
 public class ServerNetworkListener extends Listener {
 
-    private HashMap<Integer, ServerPlayer> players;
+    private HashMap<Integer, Player> players;
     private Server server;
 
     public ServerNetworkListener(Server server) {
@@ -64,31 +66,38 @@ public class ServerNetworkListener extends Listener {
 
             NewPlayerPacket newPlayerPacket = new NewPlayerPacket();
             newPlayerPacket.serverPlayer = joinPacket.player;
+            Player player2 = new Player(new Vector2(joinPacket.player.x, joinPacket.player.y));
+            player2.setID(joinPacket.player.id);
             server.sendToAllExceptTCP(connection.getID(), newPlayerPacket);
 
-            for (ServerPlayer player : players.values()) {
+            for (Player player : players.values()) {
                 NewPlayerPacket packet2 = new NewPlayerPacket();
-                packet2.serverPlayer = player;
+                ServerPlayer serverPlayer = new ServerPlayer();
+                serverPlayer.setPosition(player.getPosition().x, player.getPosition().y);
+                serverPlayer.setID(player.getID());
+                packet2.serverPlayer = serverPlayer;
                 connection.sendTCP(packet2);
             }
 
-            players.put(connection.getID(), joinPacket.player);
+            players.put(connection.getID(), player2);
+            RogueGameServer.getInstance().getServerWorld().gameObjectManager2().addGameObject(player2);
 
             for (GameObject gameObject : RogueGameServer.getInstance().getServerWorld().getGameObjectManager().getGameObjects()) {
-                SendObjectsPacket sendObjectsPacket = new SendObjectsPacket();
-                sendObjectsPacket.id = gameObject.getID();
-                sendObjectsPacket.name = gameObject.getName();
-                sendObjectsPacket.health = gameObject.getHealth();
-                sendObjectsPacket.x = gameObject.getPosition().x;
-                sendObjectsPacket.y = gameObject.getPosition().y;
-                sendObjectsPacket.projectile = "test";
-                server.sendToTCP(joinPacket.player.id, sendObjectsPacket);
+                if (!(gameObject instanceof Projectile)) {
+                    SendObjectsPacket sendObjectsPacket = new SendObjectsPacket();
+                    sendObjectsPacket.id = gameObject.getID();
+                    sendObjectsPacket.name = gameObject.getName();
+                    sendObjectsPacket.health = gameObject.getHealth();
+                    sendObjectsPacket.x = gameObject.getPosition().x;
+                    sendObjectsPacket.y = gameObject.getPosition().y;
+                    server.sendToUDP(joinPacket.player.id, sendObjectsPacket);
+                }
             }
         }
 
         if (object instanceof MovePacket) {
             MovePacket movePacket = (MovePacket) object;
-            players.get(connection.getID()).setPosition(movePacket.x, movePacket.y);
+            players.get(connection.getID()).getBody().setTransform(movePacket.x, movePacket.y, 0f);
             //Gdx.app.log("Server", "Player has moved: " + movePacket.x + " , " + movePacket.y);
 
             movePacket.id = connection.getID();
@@ -104,20 +113,21 @@ public class ServerNetworkListener extends Listener {
             RequestObjects requestObjects = (RequestObjects) object;
 
             for (GameObject gameObject : RogueGameServer.getInstance().getServerWorld().getGameObjectManager().getGameObjects()) {
-                SendObjectsPacket sendObjectsPacket = new SendObjectsPacket();
-                sendObjectsPacket.id = gameObject.getID();
-                sendObjectsPacket.name = gameObject.getName();
-                sendObjectsPacket.health = gameObject.getHealth();
-                sendObjectsPacket.x = gameObject.getPosition().x;
-                sendObjectsPacket.y = gameObject.getPosition().y;
-                sendObjectsPacket.projectile = "test";
-                server.sendToUDP(requestObjects.id, sendObjectsPacket);
+                if (!(gameObject instanceof Projectile)) {
+                    SendObjectsPacket sendObjectsPacket = new SendObjectsPacket();
+                    sendObjectsPacket.id = gameObject.getID();
+                    sendObjectsPacket.name = gameObject.getName();
+                    sendObjectsPacket.health = gameObject.getHealth();
+                    sendObjectsPacket.x = gameObject.getPosition().x;
+                    sendObjectsPacket.y = gameObject.getPosition().y;
+                    server.sendToUDP(requestObjects.id, sendObjectsPacket);
+                }
             }
         }
 
         if (object instanceof ShootPacket) {
             ShootPacket packet = (ShootPacket) object;
-            Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), Box2DHelper.BIT_PROJECTILES);
+            Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), packet.mask);
             RogueGameServer.getInstance().getServerWorld().getGameObjectManager().getGameObjects().add(projectile);
             server.sendToAllUDP(packet);
         }

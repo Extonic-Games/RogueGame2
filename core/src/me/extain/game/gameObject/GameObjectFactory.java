@@ -77,25 +77,8 @@ public class GameObjectFactory {
     public static GameObject createObject(String name, Vector2 pos) {
         GameObjectWrapper wrapper = gameObjects.get(name);
 
-        GameObject object = new GameObject(pos, Box2DHelper.createDynamicBodyCircle(pos, wrapper.size / 3, Box2DHelper.BIT_ENEMY));
-        TextureAtlas atlas = Assets.getInstance().getAssets().get("entities/" + wrapper.atlas);
-        object.setAtlas(atlas);
-        object.setWalk(new Animation<TextureRegion>(0.4f, atlas.findRegions(name + "_walk"), Animation.PlayMode.LOOP));
-        object.setIdle(atlas.findRegion(name + "_idle"));
-        object.setHealth(wrapper.health);
-        object.setSize(wrapper.size);
-        object.setObjectName(wrapper.name);
-        object.setID(MathUtils.random(1000));
+        GameObject object = new GameObject(wrapper, pos, Box2DHelper.createDynamicBodyCircle(pos, wrapper.size / 3, Box2DHelper.BIT_ENEMY));
 
-     /*   for (int i = 0; i < wrapper.behaviors.size(); i++) {  TODO: FIX BEHAVIORS
-            if (wrapper.behaviors.get(i).equalsIgnoreCase("chase")) {
-                object.addBehavior(new ChaseBehavior(object));
-            } else if (wrapper.behaviors.get(i).equalsIgnoreCase("shoot")) {
-                ShootBehavior shootBehavior = new ShootBehavior(object);
-                shootBehavior.setProjectile(wrapper.projectile);
-                object.addBehavior(shootBehavior);
-            }
-        } */
         object.createEyes();
 
         return object;

@@ -66,6 +66,7 @@ public class RogueGame extends ApplicationAdapter {
 		client.addListener(clientNetworkListener);
 
 		try {
+			//146.71.78.64 //localhost
 			client.connect(5000, "localhost", NetworkHandler.port, 5055);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -80,6 +81,8 @@ public class RogueGame extends ApplicationAdapter {
 		uiViewport = new ExtendViewport(800, 600);
 
 		camera.zoom = 0.2f;
+
+		camera.setToOrtho(false, 800, 600);
 
 		viewPort.setCamera(camera);
 		uiViewport.setCamera(uiCamera);

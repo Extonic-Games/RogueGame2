@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 import me.extain.game.Assets;
@@ -22,7 +24,7 @@ public class MainMenuScreen implements Screen {
 
 
 
-    public MainMenuScreen(RogueGame context) {
+    public MainMenuScreen(final RogueGame context) {
         this.context = context;
 
         stage = new Stage(RogueGame.getInstance().getUiViewport());
@@ -32,9 +34,9 @@ public class MainMenuScreen implements Screen {
         buttonTable = new Table();
 
         Label title = new Label("Rogue Game", Assets.getInstance().getDefaultSkin(), "default");
-        TextButton button = new TextButton("Play", Assets.getInstance().getDefaultSkin(), "default");
-        TextButton button1 = new TextButton("Options", Assets.getInstance().getDefaultSkin(), "default");
-        TextButton button2 = new TextButton("Quit", Assets.getInstance().getDefaultSkin(), "default");
+        TextButton playButton = new TextButton("Play", Assets.getInstance().getDefaultSkin(), "default");
+        TextButton optionsButton = new TextButton("Options", Assets.getInstance().getDefaultSkin(), "default");
+        TextButton quitButton = new TextButton("Quit", Assets.getInstance().getDefaultSkin(), "default");
 
         //button.align(Align.center);
 
@@ -46,16 +48,26 @@ public class MainMenuScreen implements Screen {
         //button.setPosition(Gdx.graphics.getWidth() - 500, Gdx.graphics.getHeight() / 2);
 
         labelTable.add(title).align(Align.top);
-        buttonTable.add(button).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
+        buttonTable.add(playButton).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
         buttonTable.row();
-        buttonTable.add(button1).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
+        buttonTable.add(optionsButton).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
         buttonTable.row();
-        buttonTable.add(button2).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
+        buttonTable.add(quitButton).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
 
-        button.addListener(new ChangeListener() {
+        playButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                RogueGame.getInstance().getScreenManager().changeScreen("Game");
+                //if (context.getClient().isConnected())
+                    context.getScreenManager().changeScreen("Game");
+                //else Gdx.app.log("Client", "You are not connected to the server!");
+            }
+        });
+
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.exit();
             }
         });
 

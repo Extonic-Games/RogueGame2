@@ -13,6 +13,5 @@ public class SendObjectsPacket {
     public float health;
     public float damage;
     public float maxDamage;
-    public String projectile;
 
 }

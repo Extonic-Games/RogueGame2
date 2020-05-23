@@ -7,6 +7,7 @@ public class UpdatePacket {
     public float x, y;
     public float health;
     public float damage;
+    public boolean isFlip;
     public float maxDamage;
     public String projectile;
 

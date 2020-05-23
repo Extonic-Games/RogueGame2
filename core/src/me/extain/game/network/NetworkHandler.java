@@ -7,18 +7,7 @@ import com.esotericsoftware.kryonet.EndPoint;
 import Server.ServerPlayer;
 import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Player.RemotePlayer;
-import me.extain.game.network.Packets.HelloPacket;
-import me.extain.game.network.Packets.HelloPacketACK;
-import me.extain.game.network.Packets.JoinPacket;
-import me.extain.game.network.Packets.MovePacket;
-import me.extain.game.network.Packets.MovePacketACK;
-import me.extain.game.network.Packets.NewPlayerPacket;
-import me.extain.game.network.Packets.Packet;
-import me.extain.game.network.Packets.PlayerDisconnected;
-import me.extain.game.network.Packets.RequestObjects;
-import me.extain.game.network.Packets.SendObjectsPacket;
-import me.extain.game.network.Packets.ShootPacket;
-import me.extain.game.network.Packets.UpdatePacket;
+import me.extain.game.network.Packets.*;
 
 public class NetworkHandler {
 
@@ -39,6 +28,7 @@ public class NetworkHandler {
         kryo.register(MovePacket.class);
         kryo.register(MovePacketACK.class);
         kryo.register(PlayerDisconnected.class);
+        kryo.register(MessagePacket.class);
     }
 
 }

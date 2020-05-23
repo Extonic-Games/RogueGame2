@@ -3,22 +3,22 @@ package me.extain.game.gameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.IntMap;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import me.extain.game.Assets;
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.RogueGame;
 import me.extain.game.gameObject.Behaviors.Behaviors;
+import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Projectile.Projectile;
 import me.extain.game.map.tiled.TileMap;
 import me.extain.game.screens.GameScreen;
@@ -51,9 +51,6 @@ public class GameObject {
 
     private float size;
 
-    public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-    private ArrayList<Projectile> removeProjectiles = new ArrayList<Projectile>();
-
     private ArrayList<Behaviors> behaviors = new ArrayList<Behaviors>();
 
     public static IntMap<GameObject> idMap;
@@ -70,6 +67,8 @@ public class GameObject {
     private float alpha = 0.0f;
 
     private boolean hasEyes = false;
+
+    private boolean isFlip = false;
 
     public GameObject(Vector2 position, Body body) {
         this.position = position;
@@ -91,48 +90,62 @@ public class GameObject {
             this.body.setUserData(this);
     }
 
+    public GameObject(GameObjectWrapper wrapper, Vector2 positon, Body body) {
+        this.objectName = wrapper.name;
+        this.position = positon;
+        this.body = body;
+        this.body.setUserData(this);
+        this.speed = 10f;
+        this.maxHealth = wrapper.health;
+        this.health = wrapper.health;
+        this.size = wrapper.size;
+        TextureAtlas atlas = Assets.getInstance().getAssets().get("entities/" + wrapper.atlas);
+        this.atlas = atlas;
+        this.setWalk(new Animation<TextureRegion>(0.4f, atlas.findRegions(this.objectName + "_walk"), Animation.PlayMode.LOOP));
+        this.setIdle(atlas.findRegion(this.objectName + "_idle"));
+    }
+
     public void update(float deltaTime) {
 
         alpha += deltaTime;
 
         stateTime += deltaTime;
 
+        if (getBody() != null)
+            this.getBody().setLinearDamping(5f);
 
-
-        this.getBody().setLinearDamping(5f);
-
-        if (isMoving) {
+        if (isMoving && walk != null) {
             currentTexture = walk.getKeyFrame(stateTime);
         } else {
             currentTexture = idle;
         }
 
-        if (this.getBody().getLinearVelocity().x == 0 && this.getBody().getLinearVelocity().y == 0) {
-            isMoving = false;
-        }
-
-        updateBehaviors(deltaTime);
-
-
-        for (Projectile projectile : removeProjectiles) {
-            Box2DHelper.setBodyToDestroy(projectile.getBody());
-            projectiles.remove(projectile);
-        }
-
-        removeProjectiles.clear();
-
-        for (Projectile projectile : projectiles) {
-
-            if (projectile.getDestroy()) {
-                removeProjectiles.add(projectile);
+        if (getBody() != null)
+            if (this.getBody().getLinearVelocity().x == 0 && this.getBody().getLinearVelocity().y == 0) {
+                isMoving = false;
             }
-            else {
-                projectile.update(deltaTime);
-            }
+
+        if (getBody() != null)
+            this.getPosition().set(this.getBody().getPosition());
+        if (eyesBody != null) eyesBody.setTransform(this.getPosition(), 0f);
+
+        if (oldPos.x != this.getPosition().x || oldPos.y != this.getPosition().y) {
+            oldPos.set(this.getPosition());
+            hasMoved = true;
+            isMoving = true;
         }
+    }
+
+    public void updateServer(float deltaTime) {
+
+        this.getBody().setLinearDamping(5f);
 
         this.getPosition().set(this.getBody().getPosition());
         if (eyesBody != null) eyesBody.setTransform(this.getPosition(), 0f);
+
+        if (behaviors.size() != 0)
+            updateBehaviors(deltaTime);
+
 
         if (oldPos.x != this.getPosition().x || oldPos.y != this.getPosition().y) {
             oldPos.set(this.getPosition());
@@ -141,11 +154,8 @@ public class GameObject {
     }
 
     public void render(SpriteBatch batch) {
-        for (Projectile projectile : projectiles) {
-            projectile.render(batch);
-        }
 
-        if (walk != null) {
+        if (walk != null && idle != null) {
 
             if (blinkTimer == 0) {
                 blinkTimer = 20;
@@ -161,7 +171,6 @@ public class GameObject {
                 batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
             }
         }
-
     }
 
     public void updateBehaviors(float deltaTime) {
@@ -184,30 +193,12 @@ public class GameObject {
         this.idle = region;
     }
 
-    public void clearProjectiles() {
-        for (Projectile projectile : projectiles) {
-            Box2DHelper.setBodyToDestroy(projectile.getBody());
-        }
-
-        projectiles.clear();
-    }
-
     public void onHit(GameObject object, float damage) {
         if (!(object instanceof Projectile)) {
-            object.takeDamage(damage);
-
-            System.out.println(object.getName() + ": health: " + object.getHealth());
+            //object.takeDamage(damage);
 
             isBlink = true;
-
-            if (health <= 0) {
-                this.isDestroy = true;
-            }
         }
-    }
-
-    public void shoot(Projectile projectile) {
-        projectiles.add(projectile);
     }
 
     public void createEyes() {
@@ -340,6 +331,18 @@ public class GameObject {
 
     public boolean isHasEyes() {
         return hasEyes;
+    }
+
+    public boolean isFlip() {
+        return isFlip;
+    }
+
+    public void setFlip(boolean flip) {
+        this.isFlip = flip;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.isDestroy = destroy;
     }
 
 }
