@@ -7,6 +7,8 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import me.extain.game.gameObject.item.LootBagObject;
+import me.extain.game.network.Packets.*;
 import org.json.Test;
 
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,15 +21,6 @@ import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.gameObject.Projectile.Projectile;
 import me.extain.game.gameObject.Projectile.ProjectileFactory;
 import me.extain.game.gameObject.Projectile.TestProjectile;
-import me.extain.game.network.Packets.HelloPacket;
-import me.extain.game.network.Packets.HelloPacketACK;
-import me.extain.game.network.Packets.MovePacket;
-import me.extain.game.network.Packets.MovePacketACK;
-import me.extain.game.network.Packets.NewPlayerPacket;
-import me.extain.game.network.Packets.PlayerDisconnected;
-import me.extain.game.network.Packets.SendObjectsPacket;
-import me.extain.game.network.Packets.ShootPacket;
-import me.extain.game.network.Packets.UpdatePacket;
 import me.extain.game.screens.GameScreen;
 
 public class ClientNetworkListener extends Listener {
@@ -127,6 +120,20 @@ public class ClientNetworkListener extends Listener {
                     gameScreen.getGameObjectManager().addGameObject(projectile);
                 //System.out.println("Received shootpacket!");
             }
+        }
+
+        if (object instanceof LootDropPacket) {
+            LootDropPacket packet = (LootDropPacket) object;
+            LootBagObject lootBag = new LootBagObject(new Vector2(packet.x, packet.y));
+            lootBag.setID(packet.id);
+            lootBag.addItems(packet.items);
+
+            if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
+                GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
+
+                gameScreen.getTileMap().getGameObjectManager().addGameObject(lootBag);
+            }
+
         }
     }
 }

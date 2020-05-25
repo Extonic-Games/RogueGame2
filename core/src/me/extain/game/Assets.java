@@ -34,6 +34,7 @@ public class Assets {
         assets.load("projectiles/projectile1.png", Texture.class);
         assets.load("projectiles/projectiles.atlas", TextureAtlas.class);
         assets.load("skins/statusui/statusui.atlas", TextureAtlas.class);
+        assets.load("bag/lootbags.atlas", TextureAtlas.class);
 
         progress = assets.getProgress();
     }

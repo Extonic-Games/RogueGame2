@@ -76,7 +76,10 @@ public class GameScreen implements Screen {
 
         tileMap.getGameObjectManager().addGameObject(player);
 
-        tileMap.getGameObjectManager().addGameObject(new LootBagObject(tileMap.getPlayerSpawn()));
+        //LootBagObject lootBagObject = new LootBagObject(tileMap.getPlayerSpawn());
+        //lootBagObject.addItem("stick");
+
+        //tileMap.getGameObjectManager().addGameObject(lootBagObject);
 
         context.getCamera().position.set(player.getPosition(), 0);
 

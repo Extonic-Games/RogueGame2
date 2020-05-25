@@ -9,6 +9,8 @@ import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.network.Packets.*;
 
+import java.util.ArrayList;
+
 public class NetworkHandler {
 
     static public final int port = 5045;
@@ -29,6 +31,8 @@ public class NetworkHandler {
         kryo.register(MovePacketACK.class);
         kryo.register(PlayerDisconnected.class);
         kryo.register(MessagePacket.class);
+        kryo.register(ArrayList.class);
+        kryo.register(LootDropPacket.class);
     }
 
 }

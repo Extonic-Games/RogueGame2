@@ -45,7 +45,7 @@ public class GameObject {
 
     private Animation<TextureRegion> walk = null;
     private TextureRegion idle = null;
-    private TextureRegion currentTexture = null;
+    protected TextureRegion currentTexture = null;
 
     private Body eyesBody;
 
@@ -155,7 +155,7 @@ public class GameObject {
 
     public void render(SpriteBatch batch) {
 
-        if (walk != null && idle != null) {
+        if (currentTexture != null && walk != null && idle != null) {
 
             if (blinkTimer == 0) {
                 blinkTimer = 20;
