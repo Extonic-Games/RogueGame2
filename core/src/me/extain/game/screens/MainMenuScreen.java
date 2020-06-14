@@ -15,6 +15,8 @@ import com.badlogic.gdx.utils.Align;
 
 import me.extain.game.Assets;
 import me.extain.game.RogueGame;
+import me.extain.game.network.AES;
+import me.extain.game.network.Packets.LoginUserPacket;
 
 public class MainMenuScreen implements Screen {
 
@@ -77,7 +79,17 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.app.postRunnable(() -> {
+            LoginUserPacket packet = new LoginUserPacket();
+            packet.email = "test@test.com";
+            packet.id = 1;
+            packet.username = "Admin";
+            String password = "AdminPass";
+            String enc = AES.encrypt(password, "ssshh");
+            packet.password = enc;
+            System.out.println(enc);
+            RogueGame.getInstance().getClient().sendTCP(packet);
+        });
     }
 
     @Override

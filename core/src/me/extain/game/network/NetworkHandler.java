@@ -33,6 +33,7 @@ public class NetworkHandler {
         kryo.register(MessagePacket.class);
         kryo.register(ArrayList.class);
         kryo.register(LootDropPacket.class);
+        kryo.register(LoginUserPacket.class);
     }
 
 }

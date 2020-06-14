@@ -36,6 +36,10 @@ public class LootBagObject extends GameObject {
         lootBagUI.setKeepWithinStage(true);
         lootBagUI.setPosition(50, 20);
 
+        /* TODO: Add a handler that sends out a packet when item has been taken out of bag. Check for the item on the server, and check to see if it is the
+        *  same as the one on the server.
+        * */
+
     }
 
     public void update(float deltaTime) {

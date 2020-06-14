@@ -3,8 +3,18 @@ package me.extain.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.Material;
+import com.badlogic.gdx.graphics.g3d.Model;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
+import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.HashMap;
@@ -126,7 +136,7 @@ public class GameScreen implements Screen {
             batch.setProjectionMatrix(context.getCamera().combined);
 
             if (tileMap.getGameObjectManager().getPlayer() != null)
-                context.getCamera().position.lerp(new Vector3(tileMap.getGameObjectManager().getPlayer().getPosition(), 0), 0.1f);
+                context.getCamera().position.lerp(new Vector3(tileMap.getGameObjectManager().getPlayer().getPosition(), 0), 0.05f);
 
             tiledMapRenderer.setView(context.getCamera());
             //tileMap.render();

@@ -70,6 +70,8 @@ public class GameObject {
 
     private boolean isFlip = false;
 
+    private ParticleEffect effect;
+
     public GameObject(Vector2 position, Body body) {
         this.position = position;
         this.body = body;
@@ -88,6 +90,11 @@ public class GameObject {
 
         if (body != null)
             this.body.setUserData(this);
+
+        effect = new ParticleEffect();
+        effect.load(Gdx.files.internal("particles/particle-effect.particle"), Gdx.files.internal("particles"));
+        effect.scaleEffect(0.2f);
+        effect.start();
     }
 
     public GameObject(GameObjectWrapper wrapper, Vector2 positon, Body body) {
@@ -108,6 +115,11 @@ public class GameObject {
     public void update(float deltaTime) {
 
         alpha += deltaTime;
+
+        if (effect != null && effect.isComplete()) {
+            effect.reset();
+            effect.scaleEffect(0.2f);
+        }
 
         stateTime += deltaTime;
 
@@ -166,6 +178,11 @@ public class GameObject {
                 batch.setColor((float) Math.abs(Math.sin(alpha)), 0, 0, 1);
                 batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
                 batch.setColor(Color.WHITE);
+
+                if (effect != null) {
+                    effect.setPosition(this.getPosition().x, this.getPosition().y);
+                    effect.draw(batch);
+                }
                 blinkTimer--;
             } else {
                 batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
@@ -198,6 +215,8 @@ public class GameObject {
             //object.takeDamage(damage);
 
             isBlink = true;
+            if (effect != null)
+                effect.start();
         }
     }
 
