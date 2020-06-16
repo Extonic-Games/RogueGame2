@@ -19,109 +19,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39c1dfa6-8bcb-4d08-a069-0fd9feb4cdf2" name="Default Changelist" comment="Added loot bags, client only for right now. Working on server implementation.">
-      <change afterPath="$PROJECT_DIR$/core/assets/particles/particle-effect.particle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/assets/particles/particle.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/me/extain/game/network/AES.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/src/me/extain/game/network/Packets/LoginUserPacket.java" afterDir="false" />
+    <list default="true" id="39c1dfa6-8bcb-4d08-a069-0fd9feb4cdf2" name="Default Changelist" comment="Fixed some of the bugs when receiving packets, also implements logging in on the server.">
+      <change afterPath="$PROJECT_DIR$/core/src/me/extain/game/screens/LoginUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/core/RogueGame2.core.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/core/RogueGame2.core.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/desktop/RogueGame2.desktop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/desktop/RogueGame2.desktop.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/html/RogueGame2.html.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/html/RogueGame2.html.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/core/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/Server/RogueGameServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/Server/RogueGameServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerNetworkListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerNetworkListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerPlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerPlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerProjectile.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerProjectile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerWorld.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/Server/ServerWorld.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Assets.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Assets.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ClientNetworkListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ClientNetworkListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/Box2DHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/Box2DHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/BoxContactListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/BoxContactListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/RogueGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/RogueGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/Behaviors.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/Behaviors.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/ChaseBehavior.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/ChaseBehavior.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/ShootBehavior.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/ShootBehavior.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/TransitionBehavior.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Behaviors/TransitionBehavior.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObject.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObject.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectManager$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectManager$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectManager$ObjectComparator.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectManager$ObjectComparator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/GameObjectWrapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/PlayerHUD.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/PlayerHUD.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/RemotePlayer.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/RemotePlayer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/Projectile.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/Projectile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/ProjectileFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/ProjectileFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/ProjectileWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/ProjectileWrapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/TestProjectile.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/TestProjectile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/HidingClickListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/HidingClickListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryObserver$InventoryEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryObserver$InventoryEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryObserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryObserver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventorySubject.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventorySubject.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/Slot.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/Slot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotObserver$SlotEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotObserver$SlotEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotObserver.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotObserver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotSource.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotSubject.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotSubject.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotTarget.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotTarget.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotToolTip.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotToolTip.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotToolTipListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/SlotToolTipListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/Item$ItemAttribute.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/Item$ItemAttribute.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/Item$ItemUseType.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/Item$ItemUseType.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/Item.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/ItemFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/ItemWrapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/ItemWrapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/BSP/BSPMapCreator.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/BSP/BSPMapCreator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/BSP/Leaf.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/BSP/Leaf.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/Map.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/Tile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/TiledMapGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/TiledMapGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/DungeonMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/DungeonMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/Grid.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/Grid.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/MyDungeonGen.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/MyDungeonGen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/Room.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/StartRoom.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/dungeonGen/StartRoom.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/tiled/TileMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/tiled/TileMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/tiled/TileMapHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/tiled/TileMapHelper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/tiled/TiledMapRenderer.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/map/tiled/TiledMapRenderer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/NetworkHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/NetworkHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/HelloPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/HelloPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/HelloPacketACK.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/HelloPacketACK.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/JoinPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/JoinPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/MovePacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/MovePacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/MovePacketACK.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/MovePacketACK.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/NewPlayerPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/NewPlayerPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/Packet.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/Packet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/PlayerDisconnected.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/PlayerDisconnected.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/RequestObjects.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/RequestObjects.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/SendObjectsPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/SendObjectsPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/ShootPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/ShootPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/UpdatePacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/UpdatePacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/GameScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/GameScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/MainMenuScreen$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/MainMenuScreen$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/MainMenuScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/MainMenuScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/ScreenManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/ScreenManager.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/ClientNetworkListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/ClientNetworkListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/item/LootBagObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/item/LootBagObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/network/NetworkHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/network/NetworkHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/screens/GameScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/screens/MainMenuScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/screens/MainMenuScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/DesktopLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/DesktopLauncher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/Test$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/Test$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/Test.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/server/ServerLauncher.class" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/classes/java/main/me/extain/game/desktop/server/ServerLauncher.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590365197828</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed some of the bugs when receiving packets, also implements logging in on the server.">
+      <created>1592160404938</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1592160404938</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -280,7 +192,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Fixed projectile and game object loading. Added new projectile and monster called octo (temporary name)" />
     <MESSAGE value="Added loot bags, client only for right now. Working on server implementation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added loot bags, client only for right now. Working on server implementation." />
+    <MESSAGE value="Fixed some of the bugs when receiving packets, also implements logging in on the server." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed some of the bugs when receiving packets, also implements logging in on the server." />
   </component>
   <component name="WindowStateProjectService">
     <state x="657" y="139" key="#DesktopLauncher" timestamp="1589477653772">
@@ -299,30 +212,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="687" y="321" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590428175979" />
-    <state x="765" y="235" key="#com.intellij.ide.util.MemberChooser" timestamp="1589761727992">
+    <state x="765" y="235" key="#com.intellij.ide.util.MemberChooser" timestamp="1592282920045">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1589761727992" />
+    <state x="765" y="235" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592282920045" />
     <state x="740" y="260" key="FileChooserDialogImpl" timestamp="1589704781856">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="260" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1589704781856" />
-    <state width="1877" height="176" key="GridCell.Tab.0.bottom" timestamp="1592160021770">
+    <state width="1877" height="176" key="GridCell.Tab.0.bottom" timestamp="1592284610443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="176" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592160021770" />
-    <state width="1877" height="176" key="GridCell.Tab.0.center" timestamp="1592160021769">
+    <state width="1877" height="176" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592284610443" />
+    <state width="1877" height="176" key="GridCell.Tab.0.center" timestamp="1592284610443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="176" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592160021769" />
-    <state width="1877" height="176" key="GridCell.Tab.0.left" timestamp="1592160021769">
+    <state width="1877" height="176" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592284610443" />
+    <state width="1877" height="176" key="GridCell.Tab.0.left" timestamp="1592284610443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="176" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592160021769" />
-    <state width="1877" height="176" key="GridCell.Tab.0.right" timestamp="1592160021769">
+    <state width="1877" height="176" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592284610443" />
+    <state width="1877" height="176" key="GridCell.Tab.0.right" timestamp="1592284610443">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="176" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592160021769" />
+    <state width="1877" height="176" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592284610443" />
     <state width="1877" height="266" key="GridCell.Tab.1.bottom" timestamp="1589497717286">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -343,14 +256,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592158854270" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1590365202984">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1592160407972">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1590365202984" />
-    <state x="1939" y="0" width="1432" height="824" maximized="true" key="dock-window-1" timestamp="1592157825582">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592160407972" />
+    <state x="1972" y="0" width="1455" height="1028" maximized="true" key="dock-window-1" timestamp="1592282958884">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="1939" y="0" width="1432" height="824" maximized="true" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592157825582" />
+    <state x="1972" y="0" width="1455" height="1028" maximized="true" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592282958884" />
     <state x="342" y="180" key="new project wizard" timestamp="1589832143849">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

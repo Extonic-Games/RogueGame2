@@ -24,6 +24,8 @@ public class MainMenuScreen implements Screen {
     private Table labelTable, buttonTable;
     private final RogueGame context;
 
+    private final LoginUI loginUI;
+
 
 
     public MainMenuScreen(final RogueGame context) {
@@ -35,10 +37,24 @@ public class MainMenuScreen implements Screen {
         labelTable = new Table();
         buttonTable = new Table();
 
+        loginUI = new LoginUI();
+
         Label title = new Label("Rogue Game", Assets.getInstance().getDefaultSkin(), "default");
         TextButton playButton = new TextButton("Play", Assets.getInstance().getDefaultSkin(), "default");
         TextButton optionsButton = new TextButton("Options", Assets.getInstance().getDefaultSkin(), "default");
         TextButton quitButton = new TextButton("Quit", Assets.getInstance().getDefaultSkin(), "default");
+
+        TextButton loginButton = new TextButton("Login", Assets.getInstance().getDefaultSkin());
+        loginButton.setPosition(Gdx.graphics.getWidth() - 80, Gdx.graphics.getHeight() - 50);
+
+        loginButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                stage.addActor(loginUI);
+            }
+        });
 
         //button.align(Align.center);
 
@@ -55,6 +71,9 @@ public class MainMenuScreen implements Screen {
         buttonTable.add(optionsButton).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
         buttonTable.row();
         buttonTable.add(quitButton).align(Align.top).width(200).height(50).padBottom(10).colspan(2).center();
+
+        loginUI.setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        loginUI.setMovable(true);
 
         playButton.addListener(new ChangeListener() {
             @Override
@@ -73,23 +92,14 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        stage.addActor(loginButton);
         stage.addActor(labelTable);
         stage.addActor(buttonTable);
     }
 
     @Override
     public void show() {
-        Gdx.app.postRunnable(() -> {
-            LoginUserPacket packet = new LoginUserPacket();
-            packet.email = "test@test.com";
-            packet.id = 1;
-            packet.username = "Admin";
-            String password = "AdminPass";
-            String enc = AES.encrypt(password, "ssshh");
-            packet.password = enc;
-            System.out.println(enc);
-            RogueGame.getInstance().getClient().sendTCP(packet);
-        });
+
     }
 
     @Override
