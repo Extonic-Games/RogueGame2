@@ -7,6 +7,7 @@ import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
+import me.extain.game.gameObject.Player.Account;
 import me.extain.game.gameObject.item.LootBagObject;
 import me.extain.game.network.Packets.*;
 import org.json.Test;
@@ -62,6 +63,7 @@ public class ClientNetworkListener extends Listener {
                 if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
                     GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
                     RemotePlayer remotePlayer = new RemotePlayer(new Vector2(newPlayer.serverPlayer.x, newPlayer.serverPlayer.y));
+                    remotePlayer.setUsername(newPlayer.serverPlayer.username);
                     RogueGame.getInstance().getOtherPlayers().put(newPlayer.serverPlayer.id, remotePlayer);
                 }
             }
@@ -135,6 +137,22 @@ public class ClientNetworkListener extends Listener {
                     gameScreen.getTileMap().getGameObjectManager().addGameObject(lootBag);
                 }
         }
+
+            if (object instanceof LoginSuccessPacket) {
+                LoginSuccessPacket packet = (LoginSuccessPacket) object;
+                Account account = new Account(packet.id, packet.username);
+                account.setCharacters(packet.characters);
+                RogueGame.getInstance().setAccount(account);
+                System.out.println("Login Success!");
+            }
+
+            if (object instanceof NewCharacterAckPacket) {
+                System.out.println("Character creation successful!");
+                NewCharacterAckPacket packet = (NewCharacterAckPacket) object;
+                RogueGame.getInstance().getAccount().addCharacter(packet.character);
+                RogueGame.getInstance().getAccount().setSelectedChar(packet.character);
+                RogueGame.getInstance().getScreenManager().changeScreen("Game");
+            }
     });
     }
 }

@@ -34,6 +34,11 @@ public class SlotTarget extends Target {
             return;
         }
 
+        if (!targetSlot.doesAcceptItemType(sourceActor.getItemUseType())) {
+            sourceSlot.add(sourceActor);
+            return;
+        }
+
         if (!targetSlot.hasItem()) {
             targetSlot.add(sourceActor);
         } else {

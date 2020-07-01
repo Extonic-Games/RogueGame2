@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.Listener;
 import java.io.IOException;
 import java.util.HashMap;
 
+import me.extain.game.gameObject.Player.Account;
 import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.network.NetworkHandler;
 import me.extain.game.network.Packets.HelloPacket;
@@ -22,6 +23,7 @@ import me.extain.game.network.Packets.MovePacketACK;
 import me.extain.game.network.Packets.Packet;
 import me.extain.game.network.Packets.SendObjectsPacket;
 import me.extain.game.gameObject.Player.Player;
+import me.extain.game.screens.CharacterSelectionScreen;
 import me.extain.game.screens.GameScreen;
 import me.extain.game.screens.MainMenuScreen;
 import me.extain.game.screens.ScreenManager;
@@ -44,6 +46,10 @@ public class RogueGame extends ApplicationAdapter {
 	private HashMap<Integer, RemotePlayer> otherPlayers;
 
 	private ClientNetworkListener clientNetworkListener;
+
+	private Account account;
+
+	private boolean isCharSelected = false;
 
 	public static RogueGame getInstance() {
 		if (instance == null) return new RogueGame();
@@ -90,6 +96,7 @@ public class RogueGame extends ApplicationAdapter {
 		screenManager = new ScreenManager();
 		screenManager.addScreen("Game", new GameScreen(this));
 		screenManager.addScreen("MainMenu", new MainMenuScreen(this));
+		screenManager.addScreen("CharacterSelection", new CharacterSelectionScreen(this));
 		screenManager.changeScreen("MainMenu");
 
 		//setScreen(new GameScreen(this));
@@ -162,6 +169,14 @@ public class RogueGame extends ApplicationAdapter {
 		screenManager.dispose();
 	}
 
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
 	public ScreenManager getScreenManager() {
 		return screenManager;
 	}
@@ -172,5 +187,13 @@ public class RogueGame extends ApplicationAdapter {
 
 	public HashMap<Integer, RemotePlayer> getOtherPlayers() {
 		return otherPlayers;
+	}
+
+	public boolean isCharSelected() {
+		return isCharSelected;
+	}
+
+	public void setIsCharSelected(boolean isChar) {
+		this.isCharSelected = isChar;
 	}
 }

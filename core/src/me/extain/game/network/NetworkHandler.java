@@ -1,13 +1,17 @@
 package me.extain.game.network;
 
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
 import Server.ServerPlayer;
 import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Player.RemotePlayer;
+import me.extain.game.gameObject.item.Item;
 import me.extain.game.network.Packets.*;
+import me.extain.game.gameObject.Player.Character;
 
 import java.util.ArrayList;
 
@@ -34,6 +38,15 @@ public class NetworkHandler {
         kryo.register(ArrayList.class);
         kryo.register(LootDropPacket.class);
         kryo.register(LoginUserPacket.class);
+        kryo.register(LoginSuccessPacket.class);
+        kryo.register(Character.class);
+        kryo.register(ArrayList.class);
+        kryo.register(Item.class);
+        kryo.register(NewCharacterPacket.class);
+        kryo.register(NewCharacterAckPacket.class);
+        kryo.register(Array.class);
+        kryo.register(Object[].class);
+        kryo.register(DelayedRemovalArray.class);
     }
 
 }

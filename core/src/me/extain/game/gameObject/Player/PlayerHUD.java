@@ -1,5 +1,6 @@
 package me.extain.game.gameObject.Player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,6 +24,7 @@ import me.extain.game.gameObject.inventory.InventoryObserver;
 import me.extain.game.gameObject.inventory.InventoryUI;
 import me.extain.game.gameObject.inventory.LootbagUI;
 import me.extain.game.network.Packets.MessagePacket;
+import me.extain.game.ui.PauseUI;
 
 public class PlayerHUD implements Screen, InventoryObserver {
     private static final String TAG = PlayerHUD.class.getSimpleName();
@@ -32,6 +34,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
     private OrthographicCamera camera;
     private GameObject player;
     private InventoryUI inventoryUI;
+    private PauseUI pauseUI;
 
     private Json json;
 
@@ -62,12 +65,18 @@ public class PlayerHUD implements Screen, InventoryObserver {
         stage.addActor(this.inventoryUI);
         inventoryUI.validate();
 
+        pauseUI = new PauseUI();
+        pauseUI.setKeepWithinStage(true);
+        pauseUI.setMovable(false);
+        pauseUI.setVisible(false);
+        pauseUI.setPosition((Gdx.graphics.getWidth() / 2) - (pauseUI.getWidth() / 2), (Gdx.graphics.getHeight() / 2) - (pauseUI.getHeight() / 2));
+        pauseUI.validate();
+
         hpBar = new Label(str, Assets.getInstance().getStatusSkin(), "default");
         hpBar.setPosition(20, 20);
         hpBar.setSize(10, 10);
         hpBar.setVisible(true);
-        stage.addActor(hpBar);
-        hpBar.validate();
+        hpBar.toFront();
 
         Array<Actor> actors = inventoryUI.getInventoryActors();
         for (Actor actor : actors) {
@@ -75,6 +84,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
         }
 
         this.inventoryUI.addObserver(this);
+
+        stage.addActor(hpBar);
+        stage.addActor(pauseUI);
+        hpBar.validate();
     }
 
     @Override
@@ -121,7 +134,6 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     @Override
     public void onNotify(String value, InventoryEvent event) {
-
     }
 
     public InventoryUI getInventoryUI() {
@@ -141,6 +153,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
                 stage.addActor(actor);
             }
         }
+    }
+
+    public void showPauseUI() {
+        pauseUI.setVisible(pauseUI.isVisible() ? false : true);
     }
 
     public void hideLootbag() {

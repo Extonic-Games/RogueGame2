@@ -8,8 +8,8 @@
     cyan: {  a: 1, b: 1, g: 0.9, r: 0.72 }
   },
   "com.badlogic.gdx.graphics.g2d.BitmapFont": {
-    "default-font": { "file": "fonts/SDS_6x6.fnt" },
-    "small-font" : { "file" : "fonts/SDS_6x6_small.fnt" },
+    "default-font": { "file": "fonts/Rogue-Zodiac-12x24.fnt" },
+    "small-font" : { "file" : "fonts/Rogue-Zodiac-6x12.fnt" },
     "smooth-font" : { "file" : "fonts/sans_serif_18.fnt" },
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle": {

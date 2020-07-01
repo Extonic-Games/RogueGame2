@@ -50,17 +50,44 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         observers = new Array<>();
         dragAndDrop = new DragAndDrop();
         inventoryActors = new Array<Actor>();
+        toolTip = new SlotToolTip(Assets.getInstance().getStatusSkin());
 
         inventorySlotTable = new Table();
         inventorySlotTable.setName("Inventory_Slot_Table");
+
+        this.getColor().a = 0.7f;
 
         playerSlotsTable = new Table();
         equipSlots = new Table();
         equipSlots.setName("Equipment_Slot_Table");
 
         equipSlots.defaults().space(10);
+        Slot wepSlot = new Slot(Item.ItemUseType.WEAPON.getValue());
+        wepSlot.addListener(new SlotToolTipListener(toolTip));
+        equipSlots.add(wepSlot).size(slotWidth, slotHeight);
 
-        toolTip = new SlotToolTip(Assets.getInstance().getStatusSkin());
+        Slot abiSlot = new Slot(Item.ItemUseType.ABILITY.getValue());
+        abiSlot.addListener(new SlotToolTipListener(toolTip));
+        equipSlots.add(abiSlot).size(slotWidth, slotHeight);
+
+        Slot armSlot = new Slot(Item.ItemUseType.ARMOR_CHEST.getValue());
+        armSlot.addListener(new SlotToolTipListener(toolTip));
+        equipSlots.add(armSlot).size(slotWidth, slotHeight);
+
+        Slot othSlot = new Slot(Item.ItemUseType.ARMOR_FEET.getValue());
+        othSlot.addListener(new SlotToolTipListener(toolTip));
+        equipSlots.add(othSlot).size(slotWidth, slotHeight);
+
+        wepSlot.addObserver(this);
+        abiSlot.addObserver(this);
+        armSlot.addObserver(this);
+        othSlot.addObserver(this);
+
+        dragAndDrop.addTarget(new SlotTarget(wepSlot));
+        dragAndDrop.addTarget(new SlotTarget(abiSlot));
+        dragAndDrop.addTarget(new SlotTarget(armSlot));
+        dragAndDrop.addTarget(new SlotTarget(othSlot));
+
 
         playerSlotsTable.setBackground(new Image(new NinePatch(Assets.getInstance().getAssets().get("skins/statusui/statusui.atlas", TextureAtlas.class).createPatch("dialog"))).getDrawable());
 
@@ -79,7 +106,7 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         inventoryActors.add(toolTip);
 
         this.row();
-        //this.add(playerSlotsTable).padBottom(20);
+        this.add(playerSlotsTable).padBottom(20);
         this.row();
         this.add(inventorySlotTable).colspan(1);
         this.row();
@@ -122,10 +149,35 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
             if (slot.getTopItem() == null) {
                 Item item = ItemFactory.instantiate().getItem(itemName);
-                //item.setName(itemName);
+                item.setName(itemName);
                 slot.add(item);
                 dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
                 break;
+            }
+        }
+    }
+
+    public void addItemToEquip(String itemName) {
+        Array<Cell> sourceCells = equipSlots.getCells();
+        int index = 0;
+
+        for (; index < sourceCells.size; index++) {
+            Slot slot = ((Slot) sourceCells.get(index).getActor());
+            System.out.println(slot.toString());
+            if (slot == null) break;
+
+            int numItems = slot.getNumItems();
+
+            System.out.println(numItems);
+
+            if (slot.getTopItem() == null && slot.doesAcceptItemType(ItemFactory.instantiate().getItem(itemName).getItemUseType())) {
+                Item item = ItemFactory.instantiate().getItem(itemName);
+                item.setName(itemName);
+                slot.add(item);
+                dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
+                break;
+            } else {
+                System.out.println("Slot doesn't accept item!");
             }
         }
     }
@@ -183,5 +235,12 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
     @Override
     public void onNotify(Slot slot, SlotEvent event) {
 
+        if (event == SlotEvent.ADDED_ITEM) {
+            System.out.println("Added item");
+        }
+
+        if (event == SlotEvent.REMOVED_ITEM) {
+            System.out.println("Removed item");
+        }
     }
 }

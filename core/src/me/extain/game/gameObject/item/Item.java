@@ -30,10 +30,11 @@ public class Item extends Image {
         ITEM_RESTORE_MP(2),
         ITEM_DAMAGE(4),
         WEAPON(8),
-        ARMOR_HELMET(16),
-        ARMOR_CHEST(32),
-        ARMOR_FEET(64),
-        QUEST_ITEM(128);
+        ABILITY(16),
+        ARMOR_HELMET(32),
+        ARMOR_CHEST(64),
+        ARMOR_FEET(128),
+        QUEST_ITEM(256);
 
         private int itemUseType;
 

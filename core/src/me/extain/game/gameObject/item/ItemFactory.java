@@ -39,6 +39,7 @@ public class ItemFactory {
 
         for (JsonValue jsonVal : list) {
             Item item = json.readValue(Item.class, jsonVal);
+            System.out.println(item.getItemTypeID());
             items.put(item.getItemTypeID(), item);
         }
 

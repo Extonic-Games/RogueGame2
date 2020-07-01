@@ -1,6 +1,7 @@
 package me.extain.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -25,6 +26,7 @@ import me.extain.game.Assets;
 import me.extain.game.gameObject.GameObjectFactory;
 import me.extain.game.gameObject.GameObjectManager;
 import me.extain.game.gameObject.Player.RemotePlayer;
+import me.extain.game.gameObject.item.Item;
 import me.extain.game.gameObject.item.LootBagObject;
 import me.extain.game.network.Packets.JoinPacket;
 import me.extain.game.network.Packets.SendObjectsPacket;
@@ -82,14 +84,10 @@ public class GameScreen implements Screen {
 
         tiledMapRenderer = new TiledMapRenderer(tileMap, batch);
 
-        player = new Player(tileMap.getPlayerSpawn());
+        player = new Player(RogueGame.getInstance().getAccount().getSelectedChar(), tileMap.getPlayerSpawn());
+        player.setUsername(RogueGame.getInstance().getAccount().getUsername());
 
         tileMap.getGameObjectManager().addGameObject(player);
-
-        //LootBagObject lootBagObject = new LootBagObject(tileMap.getPlayerSpawn());
-        //lootBagObject.addItem("stick");
-
-        //tileMap.getGameObjectManager().addGameObject(lootBagObject);
 
         context.getCamera().position.set(player.getPosition(), 0);
 
@@ -98,24 +96,31 @@ public class GameScreen implements Screen {
         player.setPosition(player.getPosition().x, player.getPosition().y);
         player2.setID(context.getClient().getID());
         player.setID(context.getClient().getID());
+        player2.username = player.getUsername();
         player2.setPosition(player.getPosition().x, player.getPosition().y);
         joinPacket.player = player2;
         context.getClient().sendTCP(joinPacket);
     }
 
     public void update(float delta) {
-        //SendObjectsPacket packet = new SendObjectsPacket();
-        //context.getClient().sendUDP(packet);
         box2DHelper.step();
 
             if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
                 playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
-                playerHUD.getInventoryUI().addEntityToInventory("stick");
+                for (String itemName : player.getEquipItems()) {
+                    playerHUD.getInventoryUI().addItemToEquip(itemName);
+                }
+
+                for (String itemName : player.getInventoryItems()) {
+                    playerHUD.getInventoryUI().addEntityToInventory(itemName);
+                }
 
                 InputMultiplexer multiplexer = new InputMultiplexer();
                 multiplexer.addProcessor(playerHUD.getStage());
                 Gdx.input.setInputProcessor(multiplexer);
             }
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showPauseUI();
 
             if (tileMap != null)
                 tileMap.update(delta);
@@ -157,7 +162,7 @@ public class GameScreen implements Screen {
 
             batch.end();
 
-            box2DHelper.render(context.getCamera());
+            //box2DHelper.render(context.getCamera());
 
             if (playerHUD != null)
                 playerHUD.render(Gdx.graphics.getDeltaTime());

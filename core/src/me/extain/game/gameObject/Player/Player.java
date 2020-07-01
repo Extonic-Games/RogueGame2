@@ -2,16 +2,17 @@ package me.extain.game.gameObject.Player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import com.badlogic.gdx.utils.Align;
 import me.extain.game.Assets;
 import me.extain.game.gameObject.Projectile.ProjectileFactory;
+import me.extain.game.gameObject.item.Item;
 import me.extain.game.network.Packets.MovePacket;
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.RogueGame;
@@ -20,6 +21,8 @@ import me.extain.game.gameObject.Projectile.TestProjectile;
 import me.extain.game.map.tiled.TileMap;
 import me.extain.game.network.Packets.ShootPacket;
 import me.extain.game.screens.GameScreen;
+
+import java.util.ArrayList;
 
 public class Player extends GameObject {
 
@@ -35,6 +38,13 @@ public class Player extends GameObject {
 
     private Sprite sprite;
 
+    private String username;
+
+    private BitmapFont userFont = new BitmapFont(Gdx.files.internal("fonts/Rogue-Zodiac-12x24.fnt"));
+
+    private ArrayList<String> equipItems;
+    private ArrayList<String> inventoryItems;
+
     public Player(Vector2 position) {
         super(position, Box2DHelper.createDynamicBodyCircle(position, 4f, Box2DHelper.BIT_PLAYER));
 
@@ -46,6 +56,10 @@ public class Player extends GameObject {
 
         oldPos = new Vector2(0,0);
 
+        userFont.getData().setScale(0.2f);
+        userFont.setUseIntegerPositions(false);
+        userFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+
         if (Assets.getInstance().getAssets().isLoaded("entities/player.atlas")) {
             atlas = Assets.getInstance().getAssets().get("entities/player.atlas");
 
@@ -55,6 +69,15 @@ public class Player extends GameObject {
             sprite = new Sprite(walk);
         }
 
+    }
+
+    public Player(Character character, Vector2 position) {
+        this(position);
+
+        if (character.getEquipItems() != null)
+            equipItems = character.getEquipItems();
+        if (character.getInventoryItems() != null)
+            inventoryItems = character.getInventoryItems();
     }
 
     public void update(float deltaTime) {
@@ -134,11 +157,7 @@ public class Player extends GameObject {
             movePacket.y = getBody().getLinearVelocity().y;
             RogueGame.getInstance().getClient().sendUDP(movePacket);
         }
-
-
-
     }
-
 
 
     @Override
@@ -146,6 +165,25 @@ public class Player extends GameObject {
         super.render(batch);
         if (walk != null)
             sprite.draw(batch);
+
+        if (username != null)
+            userFont.draw(batch, username, getBody().getPosition().x - 5, getBody().getPosition().y + 14, 10, Align.center, false);
+    }
+
+    public ArrayList<String> getEquipItems() {
+        return equipItems;
+    }
+
+    public ArrayList<String> getInventoryItems() {
+        return inventoryItems;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPosition(float x, float y) {

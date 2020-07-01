@@ -27,8 +27,11 @@ public class Slot extends Stack implements SlotSubject {
 
     private int numItemsVal = 0;
 
+    private int filterItemType;
+
 
     public Slot() {
+        filterItemType = 0;
         background = new Stack();
         this.observers = new Array<SlotObserver>();
 
@@ -39,6 +42,11 @@ public class Slot extends Stack implements SlotSubject {
 
         this.add(background);
 
+    }
+
+    public Slot(int filter) {
+        this();
+        filterItemType = filter;
     }
 
     public void removeItem(boolean sendRemoveNoti) {
@@ -130,10 +138,24 @@ public class Slot extends Stack implements SlotSubject {
     }
 
     static public void swapSlots(Slot slotSource, Slot slotTarget, Item dragActor) {
+
+        if (!slotTarget.doesAcceptItemType(dragActor.getItemUseType()) || !slotSource.doesAcceptItemType(slotTarget.getTopItem().getItemUseType())) {
+            slotSource.add(dragActor);
+            return;
+        }
+
         Array<Actor> tempArray = slotSource.getItems();
         tempArray.add(dragActor);
         slotSource.add(slotTarget.getItems());
         slotTarget.add(tempArray);
+    }
+
+    public boolean doesAcceptItemType(int itemType) {
+        if (filterItemType == 0) {
+            return true;
+        } else {
+            return ((filterItemType & itemType) == itemType);
+        }
     }
 
     @Override
