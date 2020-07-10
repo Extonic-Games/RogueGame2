@@ -1,5 +1,6 @@
 package me.extain.game;
 
+import Server.RogueGameServer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -8,6 +9,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 import me.extain.game.gameObject.Player.Account;
+import me.extain.game.gameObject.Player.Character;
 import me.extain.game.gameObject.item.LootBagObject;
 import me.extain.game.network.Packets.*;
 import org.json.Test;
@@ -95,16 +97,13 @@ public class ClientNetworkListener extends Listener {
                 if (gameScreen != null && gameScreen.getTileMap() != null) {
                     for (final GameObject objects : gameScreen.getTileMap().getGameObjectManager().getGameObjects()) {
                         //System.out.println(packet.id);
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(objects.getID() == packet.id) {
-                                    // Lerp server position with client position. Removes jitteriness
-                                    objects.getBody().setTransform(objects.getPosition().lerp(new Vector2(packet.x, packet.y), 0.1f), 0);
-                                    objects.setHealth(packet.health);
+                        Gdx.app.postRunnable(() -> {
+                            if(objects.getID() == packet.id) {
+                                // Lerp server position with client position. Removes jitteriness
+                                objects.getBody().setTransform(objects.getPosition().lerp(new Vector2(packet.x, packet.y), 0.1f), 0);
+                                objects.setHealth(packet.health);
 
-                                    if (objects.getHealth() <= 0) objects.setDestroy(true);
-                                }
+                                if (objects.getHealth() <= 0) objects.setDestroy(true);
                             }
                         });
 
@@ -142,6 +141,9 @@ public class ClientNetworkListener extends Listener {
                 LoginSuccessPacket packet = (LoginSuccessPacket) object;
                 Account account = new Account(packet.id, packet.username);
                 account.setCharacters(packet.characters);
+
+                for (Character character : packet.characters) System.out.println(character.getId());
+
                 RogueGame.getInstance().setAccount(account);
                 System.out.println("Login Success!");
             }
@@ -152,6 +154,11 @@ public class ClientNetworkListener extends Listener {
                 RogueGame.getInstance().getAccount().addCharacter(packet.character);
                 RogueGame.getInstance().getAccount().setSelectedChar(packet.character);
                 RogueGame.getInstance().getScreenManager().changeScreen("Game");
+            }
+
+            if (object instanceof MessagePacket) {
+                MessagePacket packet = (MessagePacket) object;
+                ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().addChatMessage(packet.username, packet.message);
             }
     });
     }

@@ -46,7 +46,7 @@ public class NetworkHandler {
         kryo.register(NewCharacterAckPacket.class);
         kryo.register(Array.class);
         kryo.register(Object[].class);
-        kryo.register(DelayedRemovalArray.class);
+        kryo.register(InventoryUpdatePacket.class);
     }
 
 }

@@ -92,13 +92,22 @@ public class GameScreen implements Screen {
         context.getCamera().position.set(player.getPosition(), 0);
 
         JoinPacket joinPacket = new JoinPacket();
+
         ServerPlayer player2 = new ServerPlayer();
+
         player.setPosition(player.getPosition().x, player.getPosition().y);
+
+
         player2.setID(context.getClient().getID());
         player.setID(context.getClient().getID());
+
+
         player2.username = player.getUsername();
+
         player2.setPosition(player.getPosition().x, player.getPosition().y);
+
         joinPacket.player = player2;
+        joinPacket.selectedChar = context.getAccount().getSelectedChar();
         context.getClient().sendTCP(joinPacket);
     }
 
@@ -107,12 +116,15 @@ public class GameScreen implements Screen {
 
             if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
                 playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
-                for (String itemName : player.getEquipItems()) {
-                    playerHUD.getInventoryUI().addItemToEquip(itemName);
+                if (player.getEquipItems().size() > 0) {
+                    for (String itemName : player.getEquipItems()) {
+                        playerHUD.getInventoryUI().addItemToEquip(itemName);
+                    }
                 }
-
-                for (String itemName : player.getInventoryItems()) {
-                    playerHUD.getInventoryUI().addEntityToInventory(itemName);
+                if (player.getInventoryItems().size() > 0) {
+                    for (String itemName : player.getInventoryItems()) {
+                        playerHUD.getInventoryUI().addEntityToInventory(itemName);
+                    }
                 }
 
                 InputMultiplexer multiplexer = new InputMultiplexer();
@@ -120,7 +132,12 @@ public class GameScreen implements Screen {
                 Gdx.input.setInputProcessor(multiplexer);
             }
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showPauseUI();
+            if (!playerHUD.isChatVis()) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.T)) playerHUD.showChat();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showPauseUI();
+            } else {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showChat();
+            }
 
             if (tileMap != null)
                 tileMap.update(delta);

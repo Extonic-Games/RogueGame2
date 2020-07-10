@@ -23,6 +23,7 @@ import me.extain.game.RogueGame;
 import me.extain.game.gameObject.GameObject;
 import me.extain.game.gameObject.item.Item;
 import me.extain.game.gameObject.item.ItemFactory;
+import me.extain.game.network.Packets.InventoryUpdatePacket;
 
 public class InventoryUI extends Window implements InventorySubject, SlotObserver {
 
@@ -78,6 +79,11 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         othSlot.addListener(new SlotToolTipListener(toolTip));
         equipSlots.add(othSlot).size(slotWidth, slotHeight);
 
+        wepSlot.setId(0);
+        abiSlot.setId(1);
+        armSlot.setId(2);
+        othSlot.setId(3);
+
         wepSlot.addObserver(this);
         abiSlot.addObserver(this);
         armSlot.addObserver(this);
@@ -93,7 +99,9 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
         for (int i = 1; i <= numSlots; i++) {
             Slot slot = new Slot();
+            slot.setId(i + 10);
             slot.addListener(new SlotToolTipListener(toolTip));
+            slot.addObserver(this);
             dragAndDrop.addTarget(new SlotTarget(slot));
             inventorySlotTable.add(slot).size(slotWidth, slotHeight);
 
@@ -236,11 +244,36 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
     public void onNotify(Slot slot, SlotEvent event) {
 
         if (event == SlotEvent.ADDED_ITEM) {
-            System.out.println("Added item");
+            InventoryUpdatePacket updatePacket = new InventoryUpdatePacket();
+            if (slot.getId() <= 10) {
+                updatePacket.isEquipSlots = true;
+                updatePacket.slotID = slot.getId();
+            } else if (slot.getId() >= 10) {
+                updatePacket.isEquipSlots = false;
+                updatePacket.slotID = slot.getId() - 10;
+            }
+            updatePacket.itemName = slot.getTopItem().getItemTypeID();
+            updatePacket.isAdded = true;
+
+            updatePacket.accountID = RogueGame.getInstance().getAccount().getId();
+            RogueGame.getInstance().getClient().sendUDP(updatePacket);
         }
 
         if (event == SlotEvent.REMOVED_ITEM) {
-            System.out.println("Removed item");
+            InventoryUpdatePacket updatePacket = new InventoryUpdatePacket();
+            System.out.println(slot.getId());
+            if (slot.getId() <= 10) {
+                updatePacket.isEquipSlots = true;
+                updatePacket.slotID = slot.getId();
+            } else if (slot.getId() >= 10) {
+                updatePacket.isEquipSlots = false;
+                updatePacket.slotID = slot.getId() - 10;
+            }
+            updatePacket.itemName = slot.getTopItem().getItemTypeID();
+            updatePacket.isAdded = false;
+
+            updatePacket.accountID = RogueGame.getInstance().getAccount().getId();
+            RogueGame.getInstance().getClient().sendUDP(updatePacket);
         }
     }
 }

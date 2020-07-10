@@ -29,9 +29,12 @@ public class Slot extends Stack implements SlotSubject {
 
     private int filterItemType;
 
+    private int id;
+
 
     public Slot() {
         filterItemType = 0;
+        id = 0;
         background = new Stack();
         this.observers = new Array<SlotObserver>();
 
@@ -180,5 +183,13 @@ public class Slot extends Stack implements SlotSubject {
         for (SlotObserver observer : observers) {
             observer.onNotify(slot, event);
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

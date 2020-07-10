@@ -59,7 +59,7 @@ public class RogueGame extends ApplicationAdapter {
 	@Override
 	public void create () {
 		instance = this;
-		otherPlayers = new HashMap<Integer, RemotePlayer>();
+		otherPlayers = new HashMap<>();
 
 		client = new Client();
 		clientNetworkListener = new ClientNetworkListener(client);

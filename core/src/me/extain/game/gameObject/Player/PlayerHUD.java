@@ -24,6 +24,7 @@ import me.extain.game.gameObject.inventory.InventoryObserver;
 import me.extain.game.gameObject.inventory.InventoryUI;
 import me.extain.game.gameObject.inventory.LootbagUI;
 import me.extain.game.network.Packets.MessagePacket;
+import me.extain.game.ui.ChatUI;
 import me.extain.game.ui.PauseUI;
 
 public class PlayerHUD implements Screen, InventoryObserver {
@@ -35,6 +36,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
     private GameObject player;
     private InventoryUI inventoryUI;
     private PauseUI pauseUI;
+    private ChatUI chatUI;
 
     private Json json;
 
@@ -78,6 +80,11 @@ public class PlayerHUD implements Screen, InventoryObserver {
         hpBar.setVisible(true);
         hpBar.toFront();
 
+        chatUI = new ChatUI();
+        chatUI.setPosition(0, 0);
+        chatUI.setVisible(false);
+        chatUI.setMovable(false);
+
         Array<Actor> actors = inventoryUI.getInventoryActors();
         for (Actor actor : actors) {
             stage.addActor(actor);
@@ -87,6 +94,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
         stage.addActor(hpBar);
         stage.addActor(pauseUI);
+        stage.addActor(chatUI);
         hpBar.validate();
     }
 
@@ -159,6 +167,14 @@ public class PlayerHUD implements Screen, InventoryObserver {
         pauseUI.setVisible(pauseUI.isVisible() ? false : true);
     }
 
+    public void showChat() {
+        chatUI.setVisible(chatUI.isVisible() ? false : true);
+    }
+
+    public boolean isChatVis() {
+        return chatUI.isVisible();
+    }
+
     public void hideLootbag() {
         if (lootbagUI != null) {
             lootbagUI.setVisible(false);
@@ -181,5 +197,9 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     public Stage getStage() {
         return stage;
+    }
+
+    public void addChatMessage(String username, String message) {
+        chatUI.addMessage(username + ": " + message);
     }
 }

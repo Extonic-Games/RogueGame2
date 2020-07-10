@@ -42,29 +42,27 @@ public class CharacterSelectionScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         if (context.getAccount() != null) {
 
-            if (context.getAccount().getCharacters().size() >= 0) {
-                for (int i = 0; i < context.getAccount().getCharacters().size(); i++) {
-                    TextButton button = new TextButton("Character: " + i, Assets.getInstance().getStatusSkin());
-                    int finalI = i;
-                    button.addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            super.clicked(event, x, y);
+            for (int i = 0; i < context.getAccount().getCharacters().size(); i++) {
+                TextButton button = new TextButton("Character: " + i, Assets.getInstance().getStatusSkin());
+                int finalI = i;
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
 
-                            RogueGame.getInstance().getAccount().setSelectedChar(context.getAccount().getCharacters().get(finalI));
-                            context.getScreenManager().changeScreen("Game");
-                        }
-                    });
-
-                    if (i % 4 == 0) {
-                        charTable.row();
+                        RogueGame.getInstance().getAccount().setSelectedChar(context.getAccount().getCharacters().get(finalI));
+                        context.getScreenManager().changeScreen("Game");
                     }
+                });
 
-                    charTable.add(button);
+                if (i % 4 == 0) {
+                    charTable.row();
                 }
+
+                charTable.add(button);
             }
 
-                TextButton button = new TextButton("New Character", Assets.getInstance().getStatusSkin());
+            TextButton button = new TextButton("New Character", Assets.getInstance().getStatusSkin());
                 button.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {

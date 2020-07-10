@@ -42,6 +42,8 @@ public class Player extends GameObject {
 
     private BitmapFont userFont = new BitmapFont(Gdx.files.internal("fonts/Rogue-Zodiac-12x24.fnt"));
 
+    private Character character;
+
     private ArrayList<String> equipItems;
     private ArrayList<String> inventoryItems;
 
@@ -74,10 +76,10 @@ public class Player extends GameObject {
     public Player(Character character, Vector2 position) {
         this(position);
 
-        if (character.getEquipItems() != null)
-            equipItems = character.getEquipItems();
-        if (character.getInventoryItems() != null)
-            inventoryItems = character.getInventoryItems();
+        this.character = character;
+
+        equipItems = character.getEquipItems();
+        inventoryItems = character.getInventoryItems();
     }
 
     public void update(float deltaTime) {
@@ -176,6 +178,14 @@ public class Player extends GameObject {
 
     public ArrayList<String> getInventoryItems() {
         return inventoryItems;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 
     public String getUsername() {
