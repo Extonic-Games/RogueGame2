@@ -28,7 +28,6 @@ import me.extain.game.ui.ChatUI;
 import me.extain.game.ui.PauseUI;
 
 public class PlayerHUD implements Screen, InventoryObserver {
-    private static final String TAG = PlayerHUD.class.getSimpleName();
 
     private Stage stage;
     private Viewport viewport;
@@ -62,7 +61,8 @@ public class PlayerHUD implements Screen, InventoryObserver {
         inventoryUI.setKeepWithinStage(true);
         inventoryUI.setMovable(true);
         inventoryUI.setVisible(false);
-        inventoryUI.setPosition(0, 0);
+        inventoryUI.setPosition(80, 0);
+        inventoryUI.toFront();
 
         stage.addActor(this.inventoryUI);
         inventoryUI.validate();
@@ -82,7 +82,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
         chatUI = new ChatUI();
         chatUI.setPosition(0, 0);
-        chatUI.setVisible(false);
+        chatUI.setVisible(true);
         chatUI.setMovable(false);
 
         Array<Actor> actors = inventoryUI.getInventoryActors();
@@ -92,9 +92,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
         this.inventoryUI.addObserver(this);
 
+
+        stage.addActor(chatUI);
         stage.addActor(hpBar);
         stage.addActor(pauseUI);
-        stage.addActor(chatUI);
         hpBar.validate();
     }
 
@@ -167,12 +168,12 @@ public class PlayerHUD implements Screen, InventoryObserver {
         pauseUI.setVisible(pauseUI.isVisible() ? false : true);
     }
 
-    public void showChat() {
-        chatUI.setVisible(chatUI.isVisible() ? false : true);
+    public void showChat(boolean vis) {
+        chatUI.showTextBox(vis);
     }
 
     public boolean isChatVis() {
-        return chatUI.isVisible();
+        return chatUI.isTextBox();
     }
 
     public void hideLootbag() {

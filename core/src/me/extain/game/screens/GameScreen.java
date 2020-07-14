@@ -133,10 +133,10 @@ public class GameScreen implements Screen {
             }
 
             if (!playerHUD.isChatVis()) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.T)) playerHUD.showChat();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.T)) playerHUD.showChat(true);
                 if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showPauseUI();
             } else {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showChat();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) playerHUD.showChat(false);
             }
 
             if (tileMap != null)

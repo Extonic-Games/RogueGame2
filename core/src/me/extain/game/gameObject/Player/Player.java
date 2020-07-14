@@ -95,24 +95,26 @@ public class Player extends GameObject {
             isFlip = false;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            this.getBody().setLinearVelocity(this.getBody().getLinearVelocity().x, getSpeed());
-        }
+        if (!((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().isChatVis()) {
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                this.getBody().setLinearVelocity(this.getBody().getLinearVelocity().x, getSpeed());
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            this.getBody().setLinearVelocity(-getSpeed(), this.getBody().getLinearVelocity().y);
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                this.getBody().setLinearVelocity(-getSpeed(), this.getBody().getLinearVelocity().y);
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            this.getBody().setLinearVelocity(this.getBody().getLinearVelocity().x, -getSpeed());
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                this.getBody().setLinearVelocity(this.getBody().getLinearVelocity().x, -getSpeed());
+            }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            this.getBody().setLinearVelocity(getSpeed(), this.getBody().getLinearVelocity().y);
-        }
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                this.getBody().setLinearVelocity(getSpeed(), this.getBody().getLinearVelocity().y);
+            }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
-            ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().displayInventory();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.I)) {
+                ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().displayInventory();
+            }
         }
 
 

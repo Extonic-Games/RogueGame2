@@ -52,6 +52,8 @@ public class Assets {
         if (assets.isLoaded("skins/statusui/statusui.atlas") && assets.isLoaded("skins/default/uiskin.atlas")) {
             statusSkin = new Skin(Gdx.files.internal("skins/statusui/statusui.json"), assets.get("skins/statusui/statusui.atlas", TextureAtlas.class));
             defaultSkin = new Skin(Gdx.files.internal("skins/default/uiskin.json"), assets.get("skins/default/uiskin.atlas", TextureAtlas.class));
+
+            statusSkin.getFont("small-font").getData().markupEnabled = true;
         }
     }
 

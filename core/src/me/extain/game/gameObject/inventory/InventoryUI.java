@@ -148,12 +148,9 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
         for (; index < sourceCells.size; index++) {
             Slot slot = ((Slot) sourceCells.get(index).getActor());
-            System.out.println(slot.toString());
             if (slot == null) break;
 
             int numItems = slot.getNumItems();
-
-            System.out.println(numItems);
 
             if (slot.getTopItem() == null) {
                 Item item = ItemFactory.instantiate().getItem(itemName);
@@ -171,12 +168,9 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
         for (; index < sourceCells.size; index++) {
             Slot slot = ((Slot) sourceCells.get(index).getActor());
-            System.out.println(slot.toString());
             if (slot == null) break;
 
             int numItems = slot.getNumItems();
-
-            System.out.println(numItems);
 
             if (slot.getTopItem() == null && slot.doesAcceptItemType(ItemFactory.instantiate().getItem(itemName).getItemUseType())) {
                 Item item = ItemFactory.instantiate().getItem(itemName);
