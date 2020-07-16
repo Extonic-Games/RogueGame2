@@ -3,9 +3,12 @@ package me.extain.game.gameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.IntMap;
@@ -93,8 +96,7 @@ public class GameObject {
 
         effect = new ParticleEffect();
         effect.load(Gdx.files.internal("particles/particle-effect.particle"), Gdx.files.internal("particles"));
-        effect.scaleEffect(0.2f);
-        effect.start();
+        effect.scaleEffect(0.5f);
     }
 
     public GameObject(GameObjectWrapper wrapper, Vector2 positon, Body body) {
@@ -110,16 +112,17 @@ public class GameObject {
         this.atlas = atlas;
         this.setWalk(new Animation<TextureRegion>(0.4f, atlas.findRegions(this.objectName + "_walk"), Animation.PlayMode.LOOP));
         this.setIdle(atlas.findRegion(this.objectName + "_idle"));
+
+        effect = new ParticleEffect();
+        effect.load(Gdx.files.internal("particles/particle-effect.particle"), Gdx.files.internal("particles"));
+        effect.scaleEffect(0.2f);
     }
 
     public void update(float deltaTime) {
 
         alpha += deltaTime;
 
-        if (effect != null && effect.isComplete()) {
-            effect.reset();
-            effect.scaleEffect(0.2f);
-        }
+        effect.update(deltaTime);
 
         stateTime += deltaTime;
 
@@ -190,6 +193,44 @@ public class GameObject {
         }
     }
 
+    public void renderWithOutline(SpriteBatch batch, Sprite sprite) {
+        batch.end();
+
+        Assets.getInstance().getShaderOutline().begin();
+        Assets.getInstance().getShaderOutline().setUniformf("u_viewportInverse", new Vector2(1f / 99, 1f / 99));
+        Assets.getInstance().getShaderOutline().setUniformf("u_offset", .7f);
+        Assets.getInstance().getShaderOutline().setUniformf("u_step", Math.min(1f, 16 / 70f));
+        Assets.getInstance().getShaderOutline().setUniformf("u_color", new Vector3(0, 0, 0));
+        Assets.getInstance().getShaderOutline().end();
+
+        batch.setShader(Assets.getInstance().getShaderOutline());
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
+        batch.setShader(null);
+        batch.begin();
+        sprite.draw(batch);
+    }
+
+    public void renderWithOutline(SpriteBatch batch) {
+        batch.end();
+
+        Assets.getInstance().getShaderOutline().begin();
+        Assets.getInstance().getShaderOutline().setUniformf("u_viewportInverse", new Vector2(1f / 99, 1f / 99));
+        Assets.getInstance().getShaderOutline().setUniformf("u_offset", .7f);
+        Assets.getInstance().getShaderOutline().setUniformf("u_step", Math.min(1f, 16 / 70f));
+        Assets.getInstance().getShaderOutline().setUniformf("u_color", new Vector3(0, 0, 0));
+        Assets.getInstance().getShaderOutline().end();
+
+        batch.setShader(Assets.getInstance().getShaderOutline());
+        batch.begin();
+        batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
+        batch.end();
+        batch.setShader(null);
+        batch.begin();
+        batch.draw(currentTexture, this.getPosition().x - size / 2, this.getPosition().y - size / 3, size, size);
+    }
+
     public void updateBehaviors(float deltaTime) {
         for (Behaviors behavior : behaviors) {
             behavior.update(deltaTime);
@@ -215,8 +256,8 @@ public class GameObject {
             //object.takeDamage(damage);
 
             isBlink = true;
-            if (effect != null)
-                effect.start();
+            effect.setPosition(this.getPosition().x, this.getPosition().y);
+            effect.start();
         }
     }
 

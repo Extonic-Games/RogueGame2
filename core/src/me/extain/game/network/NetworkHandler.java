@@ -14,6 +14,7 @@ import me.extain.game.network.Packets.*;
 import me.extain.game.gameObject.Player.Character;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class NetworkHandler {
 
@@ -47,6 +48,7 @@ public class NetworkHandler {
         kryo.register(Array.class);
         kryo.register(Object[].class);
         kryo.register(InventoryUpdatePacket.class);
+        kryo.register(HashMap.class);
     }
 
 }

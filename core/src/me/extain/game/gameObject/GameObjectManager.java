@@ -2,6 +2,8 @@ package me.extain.game.gameObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryonet.Server;
 
 import java.lang.reflect.Array;
@@ -10,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import me.extain.game.Assets;
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.RogueGame;
 import me.extain.game.gameObject.Player.Player;
@@ -84,7 +87,7 @@ public class GameObjectManager {
 
     public void render(SpriteBatch batch) {
          for (GameObject object : objects) {
-            object.render(batch);
+             object.render(batch);
         }
     }
 

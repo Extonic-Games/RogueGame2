@@ -37,7 +37,13 @@ public class SlotToolTip extends Window {
             Item item = slot.getTopItem();
             string.append(item.getItemTypeID());
             string.append(System.getProperty("line.separator"));
-            string.append("__________");
+            string.append("_____________________");
+            if (item.getWeaponStats() != null) {
+                string.append(System.getProperty("line.separator"));
+                string.append("Damage: ").append(item.getWeaponStats().getDamage()).append(" / ").append(item.getWeaponStats().getMaxDamage());
+                string.append(System.getProperty("line.separator"));
+                string.append("_____________________");
+            }
             string.append(System.getProperty("line.separator"));
             string.append(item.getItemShortDesc());
             string.append(System.getProperty("line.separator"));

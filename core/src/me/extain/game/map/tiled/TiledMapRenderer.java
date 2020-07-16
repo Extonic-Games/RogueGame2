@@ -34,10 +34,14 @@ public class TiledMapRenderer extends OrthogonalTiledMapRenderer {
                     renderTileLayer((TiledMapTileLayer) layer);
                     currentLayer++;
                 if (currentLayer == drawObjectsAfter) {
-                    for (GameObject object : map.getGameObjectManager().getGameObjects()) object.render(batch);
+                    for (GameObject object : map.getGameObjectManager().getGameObjects()) {
+                        object.render(batch);
+                    }
                 }
             }
         }
         endRender();
     }
+
+
 }

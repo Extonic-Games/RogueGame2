@@ -19,6 +19,7 @@ import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector3;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import Server.ServerPlayer;
 import io.socket.client.Socket;
@@ -117,13 +118,14 @@ public class GameScreen implements Screen {
             if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
                 playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
                 if (player.getEquipItems().size() > 0) {
-                    for (String itemName : player.getEquipItems()) {
-                        playerHUD.getInventoryUI().addItemToEquip(itemName);
+
+                    for (Map.Entry<Integer, String> entry : player.getEquipItems().entrySet()) {
+                        playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue());
                     }
                 }
                 if (player.getInventoryItems().size() > 0) {
-                    for (String itemName : player.getInventoryItems()) {
-                        playerHUD.getInventoryUI().addEntityToInventory(itemName);
+                    for (Map.Entry<Integer, String> entry : player.getInventoryItems().entrySet()) {
+                        playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue());
                     }
                 }
 

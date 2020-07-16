@@ -162,6 +162,28 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         }
     }
 
+    public void addEntityToInventory(int slotID, String itemName) {
+        Array<Cell> sourceCells = inventorySlotTable.getCells();
+        int index = 0;
+
+        for (; index < sourceCells.size; index++) {
+            Slot slot = ((Slot) sourceCells.get(index).getActor());
+            if (slot == null) break;
+
+            int numItems = slot.getNumItems();
+
+            if (itemName != "") {
+                if (slot.getId() == slotID && slot.getTopItem() == null) {
+                    Item item = ItemFactory.instantiate().getItem(itemName);
+                    item.setName(itemName);
+                    slot.add(item);
+                    dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
+                }
+                break;
+            }
+        }
+    }
+
     public void addItemToEquip(String itemName) {
         Array<Cell> sourceCells = equipSlots.getCells();
         int index = 0;
@@ -180,6 +202,30 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
                 break;
             } else {
                 System.out.println("Slot doesn't accept item!");
+            }
+        }
+    }
+
+    public void addItemToEquip(int slotID, String itemName) {
+        Array<Cell> sourceCells = equipSlots.getCells();
+        int index = 0;
+
+        for (; index < sourceCells.size; index++) {
+            Slot slot = ((Slot) sourceCells.get(index).getActor());
+            if (slot == null) break;
+
+            int numItems = slot.getNumItems();
+
+            if (slot.getId() == slotID && itemName != "") {
+                if (slot.getTopItem() == null && slot.doesAcceptItemType(ItemFactory.instantiate().getItem(itemName).getItemUseType())) {
+                    Item item = ItemFactory.instantiate().getItem(itemName);
+                    item.setName(itemName);
+                    slot.add(item);
+                    dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
+                    break;
+                } else {
+                    System.out.println("Slot doesn't accept item!");
+                }
             }
         }
     }
@@ -244,7 +290,7 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
                 updatePacket.slotID = slot.getId();
             } else if (slot.getId() >= 10) {
                 updatePacket.isEquipSlots = false;
-                updatePacket.slotID = slot.getId() - 10;
+                updatePacket.slotID = slot.getId();
             }
             updatePacket.itemName = slot.getTopItem().getItemTypeID();
             updatePacket.isAdded = true;
@@ -255,13 +301,12 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
         if (event == SlotEvent.REMOVED_ITEM) {
             InventoryUpdatePacket updatePacket = new InventoryUpdatePacket();
-            System.out.println(slot.getId());
             if (slot.getId() <= 10) {
                 updatePacket.isEquipSlots = true;
                 updatePacket.slotID = slot.getId();
             } else if (slot.getId() >= 10) {
                 updatePacket.isEquipSlots = false;
-                updatePacket.slotID = slot.getId() - 10;
+                updatePacket.slotID = slot.getId();
             }
             updatePacket.itemName = slot.getTopItem().getItemTypeID();
             updatePacket.isAdded = false;

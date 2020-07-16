@@ -3,6 +3,7 @@ package me.extain.game.gameObject.Player;
 import me.extain.game.gameObject.item.Item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Character {
 
@@ -12,17 +13,17 @@ public class Character {
     public int charLevel;
     public float charExp;
 
-    public ArrayList<String> equipItems;
-    public ArrayList<String> inventoryItems;
+    public HashMap<Integer, String> equipItems;
+    public HashMap<Integer, String> inventoryItems;
 
     public Character() {
-        equipItems = new ArrayList<>();
-        inventoryItems = new ArrayList<>();
+        equipItems = new HashMap<>();
+        inventoryItems = new HashMap<>();
     }
 
     public Character(int id, int accountID) {
-        equipItems = new ArrayList<>();
-        inventoryItems = new ArrayList<>();
+        equipItems = new HashMap<>();
+        inventoryItems = new HashMap<>();
     }
 
     public void setId(int id) {
@@ -33,11 +34,11 @@ public class Character {
         this.accountID = accountID;
     }
 
-    public void setEquipItems(ArrayList<String> equipItems) {
+    public void setEquipItems(HashMap<Integer, String> equipItems) {
         this.equipItems = equipItems;
     }
 
-    public void setInventoryItems(ArrayList<String> inventoryItems) {
+    public void setInventoryItems(HashMap<Integer, String> inventoryItems) {
         this.inventoryItems = inventoryItems;
     }
 
@@ -57,37 +58,28 @@ public class Character {
         return charLevel;
     }
 
-    public ArrayList<String> getEquipItems() {
+    public HashMap<Integer, String> getEquipItems() {
         return equipItems;
     }
 
-    public ArrayList<String> getInventoryItems() {
+    public HashMap<Integer, String> getInventoryItems() {
         return inventoryItems;
     }
 
-    public void addEquipItem(String itemName) {
-        equipItems.add(itemName);
+    public void addEquipItem(int slot, String itemName) {
+        equipItems.put(slot, itemName);
     }
 
-    public void addInventoryItem(String itemName) {
-        inventoryItems.add(itemName);
+    public void addInventoryItem(int slot, String itemName) {
+        inventoryItems.put(slot, itemName);
     }
 
-    public void removeEquipItem(String itemName) {
-        ArrayList<String> removeItems = new ArrayList<>();
-        for (String string : equipItems) {
-            if (string.equalsIgnoreCase(itemName)) removeItems.add(string);
-        }
-
-        for (String string : removeItems) equipItems.remove(string);
-
-        removeItems.clear();
-
-        System.out.println("Removed equip item!");
+    public void removeEquipItem(int slot, String itemName) {
+        equipItems.remove(slot, itemName);
     }
 
-    public void removeInventoryItem(String itemName) {
-        inventoryItems.remove(itemName);
+    public void removeInventoryItem(int slot, String itemName) {
+        inventoryItems.remove(slot, itemName);
     }
 
     public int getId() {

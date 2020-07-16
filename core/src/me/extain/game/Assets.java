@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import java.util.HashMap;
 
@@ -17,10 +19,13 @@ public class Assets {
 
     private Skin statusSkin, defaultSkin;
 
+    private ShaderProgram shaderOutline;
+
     public Assets() {
         assets = new AssetManager();
         loadAssets();
         loadSkins();
+        loadShaders();
         instance = this;
     }
 
@@ -57,6 +62,14 @@ public class Assets {
         }
     }
 
+    private void loadShaders() {
+        String fragmentShader = Gdx.files.internal("shaders/outlineFrag.fs").readString();
+        String vertexShader = Gdx.files.internal("shaders/outlineVertex.vs").readString();
+        shaderOutline = new ShaderProgram(vertexShader, fragmentShader);
+
+        if (!shaderOutline.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shaderOutline.getLog());
+    }
+
     public static Assets getInstance() {
         if (instance == null) return new Assets();
         else return instance;
@@ -78,5 +91,9 @@ public class Assets {
 
     public Skin getDefaultSkin() {
         return defaultSkin;
+    }
+
+    public ShaderProgram getShaderOutline() {
+        return shaderOutline;
     }
 }

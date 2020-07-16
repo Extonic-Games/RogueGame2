@@ -23,6 +23,7 @@ import me.extain.game.network.Packets.ShootPacket;
 import me.extain.game.screens.GameScreen;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player extends GameObject {
 
@@ -44,8 +45,8 @@ public class Player extends GameObject {
 
     private Character character;
 
-    private ArrayList<String> equipItems;
-    private ArrayList<String> inventoryItems;
+    public HashMap<Integer, String> equipItems;
+    public HashMap<Integer, String> inventoryItems;
 
     public Player(Vector2 position) {
         super(position, Box2DHelper.createDynamicBodyCircle(position, 4f, Box2DHelper.BIT_PLAYER));
@@ -174,11 +175,11 @@ public class Player extends GameObject {
             userFont.draw(batch, username, getBody().getPosition().x - 5, getBody().getPosition().y + 14, 10, Align.center, false);
     }
 
-    public ArrayList<String> getEquipItems() {
+    public HashMap<Integer, String> getEquipItems() {
         return equipItems;
     }
 
-    public ArrayList<String> getInventoryItems() {
+    public HashMap<Integer, String> getInventoryItems() {
         return inventoryItems;
     }
 

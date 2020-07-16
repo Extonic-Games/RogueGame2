@@ -1,12 +1,16 @@
 package me.extain.game.gameObject.Projectile;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import me.extain.game.Assets;
 import me.extain.game.Physics.Box2DHelper;
 import me.extain.game.gameObject.GameObject;
 
@@ -26,6 +30,8 @@ public class Projectile extends GameObject {
 
     public Sprite sprite;
 
+    public ParticleEffect trail;
+
 
     public Projectile(Vector2 position, Body body) {
         super(position, body);
@@ -38,6 +44,15 @@ public class Projectile extends GameObject {
         this.setObjectName("Projectile");
 
         this.damageRange = MathUtils.random(maxDamage - minDamage + 1);
+
+        trail = new ParticleEffect();
+        trail.load(Gdx.files.internal("particles/projectile-trail.particle"), Gdx.files.internal("particles"));
+        trail.scaleEffect(0.2f);
+        trail.getEmitters().get(0).getTint().setColors(new float[] {
+                0.1f, 0.1f, 0.1f
+        });
+        trail.setPosition(this.getPosition().x, this.getPosition().y);
+        trail.start();
     }
 
     public void update(float deltaTime) {
@@ -56,6 +71,16 @@ public class Projectile extends GameObject {
 
         float angle = MathUtils.radiansToDegrees * MathUtils.atan2(this.getVelocity().y, this.getVelocity().x);
 
+        if (trail != null) {
+            trail.setPosition(this.getPosition().x, this.getPosition().y);
+            trail.update(deltaTime);
+
+            for (int i = 0; i < trail.getEmitters().size; i++) { //get the list of emitters - things that emit particles
+                trail.getEmitters().get(i).getAngle().setLow(angle); //low is the minimum rotation
+                trail.getEmitters().get(i).getAngle().setHigh(angle); //high is the max rotation
+            }
+        }
+
         if (sprite != null && this.getBody() != null) {
             sprite.setRotation(angle);
             this.getBody().setTransform(this.getPosition(), this.getBody().getAngle() * angle);
@@ -65,7 +90,9 @@ public class Projectile extends GameObject {
 
     @Override
     public void render(SpriteBatch batch) {
-            sprite.draw(batch);
+        trail.draw(batch);
+
+        renderWithOutline(batch, sprite);
     }
 
     public void createSprite() {
