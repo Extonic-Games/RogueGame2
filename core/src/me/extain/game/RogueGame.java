@@ -61,7 +61,7 @@ public class RogueGame extends ApplicationAdapter {
 		instance = this;
 		otherPlayers = new HashMap<>();
 
-		client = new Client();
+		client = new Client(1000000, 1000000);
 		clientNetworkListener = new ClientNetworkListener(client);
 
 		NetworkHandler.register(client);

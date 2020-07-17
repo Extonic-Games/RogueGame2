@@ -45,8 +45,8 @@ public class Player extends GameObject {
 
     private Character character;
 
-    public HashMap<Integer, String> equipItems;
-    public HashMap<Integer, String> inventoryItems;
+    public HashMap<Integer, Item> equipItems;
+    public HashMap<Integer, Item> inventoryItems;
 
     public Player(Vector2 position) {
         super(position, Box2DHelper.createDynamicBodyCircle(position, 4f, Box2DHelper.BIT_PLAYER));
@@ -125,7 +125,7 @@ public class Player extends GameObject {
        float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
        RogueGame.getInstance().getUICamera().unproject(new Vector3(mouseX, mouseY, 0));
 
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && shootTimer == 0 &&  !((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().getInventoryUI().isInInventory(mouseX, mouseY)) {
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().getInventoryUI().isInInventory(mouseX, mouseY)) {
 
             float targetX = this.getPosition().x - (Gdx.input.getX() - Gdx.graphics.getWidth() / 2);
             float targetY = this.getPosition().y + (Gdx.input.getY() - Gdx.graphics.getHeight() / 2);
@@ -137,8 +137,6 @@ public class Player extends GameObject {
 
             float angle = MathUtils.radiansToDegrees * MathUtils.atan2(dirX - this.getPosition().x, dirY - this.getPosition().y);
 
-            //projectiles.add(ProjectileFactory.getInstance().getProjectile("OctoShot", new Vector2(this.getPosition().x - (dirX / 3f), this.getBody().getPosition().y - (dirY / 3f)), new Vector2(-dirX, -dirY), Box2DHelper.BIT_PROJECTILES));
-
             ShootPacket packet = new ShootPacket();
             packet.name = "Test";
             packet.id = this.getID();
@@ -149,7 +147,7 @@ public class Player extends GameObject {
             packet.velY = -dirY;
             RogueGame.getInstance().getClient().sendUDP(packet);
 
-            shootTimer = 20;
+            //shootTimer = 20 * ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().getInventoryUI().getEquipSlot(0).getTopItem().getWeaponStats().attackSpeed;
 
         }
 
@@ -175,11 +173,11 @@ public class Player extends GameObject {
             userFont.draw(batch, username, getBody().getPosition().x - 5, getBody().getPosition().y + 14, 10, Align.center, false);
     }
 
-    public HashMap<Integer, String> getEquipItems() {
+    public HashMap<Integer, Item> getEquipItems() {
         return equipItems;
     }
 
-    public HashMap<Integer, String> getInventoryItems() {
+    public HashMap<Integer, Item> getInventoryItems() {
         return inventoryItems;
     }
 

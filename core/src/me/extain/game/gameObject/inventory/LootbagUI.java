@@ -24,7 +24,7 @@ public class LootbagUI extends Window implements InventorySubject, SlotObserver{
     private SlotToolTip toolTip;
 
     public LootbagUI() {
-        super("Lootbag", Assets.getInstance().getStatusSkin(), "solidbackground");
+        super("", Assets.getInstance().getStatusSkin(), "solidbackground");
 
         dragAndDrop = new DragAndDrop();
         lootActors = new Array<>();
@@ -39,6 +39,7 @@ public class LootbagUI extends Window implements InventorySubject, SlotObserver{
         for (int i = 0; i <= numSlots; i++) {
             Slot slot = new Slot();
             slot.addListener(new SlotToolTipListener(toolTip));
+            slot.addObserver(this);
             dragAndDrop.addTarget(new SlotTarget(slot));
             lootBagSlotTable.add(slot).size(slotWidth, slotHeight);
 
@@ -83,17 +84,32 @@ public class LootbagUI extends Window implements InventorySubject, SlotObserver{
         }
     }
 
+    public void removeTargets(Table table) {
+        for (int i = 0; i < table.getCells().size; i++) {
+            Slot slot = ((Slot) table.getCells().get(i).getActor());
+
+            dragAndDrop.removeTarget(new SlotTarget(slot));
+        }
+    }
+
+    public Table getLootBagSlotTable() {
+        return lootBagSlotTable;
+    }
+
     public boolean isEmpty() {
         Array<Cell> sourceCells = lootBagSlotTable.getCells();
+        Array<Slot> emptyCells = new Array<>();
 
         for (int i = 0; i < sourceCells.size; i++) {
             Slot slot = ((Slot) sourceCells.get(i).getActor());
 
-            if (slot.getTopItem() == null) return true;
-            else return false;
+            if (slot.getTopItem() == null) emptyCells.add(slot);
         }
 
-        return false;
+        if (emptyCells.size == sourceCells.size)
+            return true;
+        else
+            return false;
     }
 
     public Array<Actor> getLootActors() {

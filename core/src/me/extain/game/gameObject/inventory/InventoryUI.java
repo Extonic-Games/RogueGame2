@@ -175,7 +175,6 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
             if (itemName != "") {
                 if (slot.getId() == slotID && slot.getTopItem() == null) {
                     Item item = ItemFactory.instantiate().getItem(itemName);
-                    item.setName(itemName);
                     slot.add(item);
                     dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
                 }
@@ -238,6 +237,26 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         return inventorySlotTable;
     }
 
+    public Table getEquipSlots() {
+        return equipSlots;
+    }
+
+    public void addTargets(Table table) {
+        for (int i = 0; i < table.getCells().size; i++) {
+            Slot slot = ((Slot) table.getCells().get(i).getActor());
+
+            dragAndDrop.addTarget(new SlotTarget(slot));
+        }
+    }
+
+    public void removeTargets(Table table) {
+        for (int i = 0; i < table.getCells().size; i++) {
+            Slot slot = ((Slot) table.getCells().get(i).getActor());
+
+            dragAndDrop.removeTarget(new SlotTarget(slot));
+        }
+    }
+
 
     @Override
     public void addObserver(InventoryObserver inventoryObserver) {
@@ -278,6 +297,26 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         if (this.isVisible() && iX <= x && iX + iWidth >= x && iY <= y && iY + iHeight >= y) return true;
 
         return false;
+    }
+
+    public Slot getEquipSlot(int id) {
+        for (int i = 0; i < equipSlots.getCells().size; i++) {
+            Slot slot = (Slot) equipSlots.getCells().get(i).getActor();
+
+            if (slot.getId() == id) return slot;
+        }
+
+        return null;
+    }
+
+    public Slot getInvSlot(int id) {
+        for (int i = 0; i < inventorySlotTable.getCells().size; i++) {
+            Slot slot = (Slot) inventorySlotTable.getCells().get(i).getActor();
+
+            if (slot.getId() == id) return slot;
+        }
+
+        return null;
     }
 
     @Override

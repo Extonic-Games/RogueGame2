@@ -153,7 +153,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
         if (ui != null) {
             lootbagUI = ui;
             lootbagUI.addTargets(inventoryUI.getInventorySlotTable());
+            lootbagUI.addTargets(inventoryUI.getEquipSlots());
+            inventoryUI.addTargets(lootbagUI.getLootBagSlotTable());
             lootbagUI.setVisible(true);
+
 
             stage.addActor(lootbagUI);
 
@@ -183,6 +186,7 @@ public class PlayerHUD implements Screen, InventoryObserver {
     }
 
     public void destroyLootBag() {
+        inventoryUI.removeTargets(lootbagUI.getLootBagSlotTable());
         stage.getActors().removeAll(lootbagUI.getLootActors(), true);
         lootbagUI.setVisible(false);
         lootbagUI = null;

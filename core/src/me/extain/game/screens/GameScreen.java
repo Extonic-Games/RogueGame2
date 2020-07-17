@@ -119,13 +119,13 @@ public class GameScreen implements Screen {
                 playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
                 if (player.getEquipItems().size() > 0) {
 
-                    for (Map.Entry<Integer, String> entry : player.getEquipItems().entrySet()) {
-                        playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue());
+                    for (Map.Entry<Integer, Item> entry : player.getEquipItems().entrySet()) {
+                        playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue().getItemTypeID());
                     }
                 }
                 if (player.getInventoryItems().size() > 0) {
-                    for (Map.Entry<Integer, String> entry : player.getInventoryItems().entrySet()) {
-                        playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue());
+                    for (Map.Entry<Integer, Item> entry : player.getInventoryItems().entrySet()) {
+                        playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue().getItemTypeID());
                     }
                 }
 

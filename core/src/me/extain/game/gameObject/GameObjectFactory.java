@@ -68,10 +68,7 @@ public class GameObjectFactory {
 
         wrapper.projectile = projectile;
 
-        if (gameObjects.get(name) == null)
-            gameObjects.put(name, wrapper);
-
-        System.out.println(gameObjects.toString());
+        gameObjects.putIfAbsent(name, wrapper);
     }
 
     public static GameObject createObject(String name, Vector2 pos) {

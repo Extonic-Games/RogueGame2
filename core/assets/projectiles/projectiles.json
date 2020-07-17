@@ -12,5 +12,12 @@
     "maxDamage": 40,
     "lifespan": 10,
     "atlas": "projectiles.atlas"
+  },
+  {
+    "name": "arrow",
+    "damage": 10,
+    "maxDamage": 40,
+    "lifespan": 10,
+    "atlas": "projectiles.atlas"
   }
 ]

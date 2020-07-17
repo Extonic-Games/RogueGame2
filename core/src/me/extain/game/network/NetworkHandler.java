@@ -1,8 +1,12 @@
 package me.extain.game.network;
 
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.IntArray;
+import com.badlogic.gdx.utils.Scaling;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
@@ -10,11 +14,13 @@ import Server.ServerPlayer;
 import me.extain.game.gameObject.Player.Player;
 import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.gameObject.item.Item;
+import me.extain.game.gameObject.item.WeaponStats;
 import me.extain.game.network.Packets.*;
 import me.extain.game.gameObject.Player.Character;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class NetworkHandler {
 
@@ -49,6 +55,13 @@ public class NetworkHandler {
         kryo.register(Object[].class);
         kryo.register(InventoryUpdatePacket.class);
         kryo.register(HashMap.class);
+        kryo.register(DelayedRemovalArray.class);
+        kryo.register(IntArray.class);
+        kryo.register(int[].class);
+        kryo.register(Color.class);
+        kryo.register(Scaling.class);
+        kryo.register(Touchable.class);
+        kryo.register(WeaponStats.class);
     }
 
 }
