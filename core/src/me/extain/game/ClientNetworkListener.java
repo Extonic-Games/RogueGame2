@@ -142,7 +142,7 @@ public class ClientNetworkListener extends Listener {
                 Account account = new Account(packet.id, packet.username);
                 account.setCharacters(packet.characters);
 
-                for (Character character : packet.characters) System.out.println(character.getId());
+                for (Character character : packet.characters) System.out.println(character.getId() + ": " + character.getEquipItems().entrySet() + ", " + character.getInventoryItems().entrySet());
 
                 RogueGame.getInstance().setAccount(account);
                 System.out.println("Login Success!");

@@ -120,12 +120,14 @@ public class GameScreen implements Screen {
                 if (player.getEquipItems().size() > 0) {
 
                     for (Map.Entry<Integer, Item> entry : player.getEquipItems().entrySet()) {
-                        playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue().getItemTypeID());
+                        if (entry.getValue() != null)
+                            playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue().getItemTypeID());
                     }
                 }
                 if (player.getInventoryItems().size() > 0) {
                     for (Map.Entry<Integer, Item> entry : player.getInventoryItems().entrySet()) {
-                        playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue().getItemTypeID());
+                        if (entry.getValue() != null)
+                            playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue().getItemTypeID());
                     }
                 }
 

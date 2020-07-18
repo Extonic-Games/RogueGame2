@@ -34,7 +34,6 @@ public class Slot extends Stack implements SlotSubject {
 
     public Slot() {
         filterItemType = 0;
-        id = 0;
         background = new Stack();
         this.observers = new Array<SlotObserver>();
 
@@ -55,13 +54,17 @@ public class Slot extends Stack implements SlotSubject {
     public void removeItem(boolean sendRemoveNoti) {
         numItemsVal--;
         if (sendRemoveNoti) {
+
+            System.out.println("Sent removed item! ID: " + this.id);
             notify(this, SlotObserver.SlotEvent.REMOVED_ITEM);
         }
     }
 
     public void addItem(boolean sendAddNoti) {
         numItemsVal++;
+
         if (sendAddNoti) {
+            System.out.println("Sent added item! ID: " + this.id);
             notify(this, SlotObserver.SlotEvent.ADDED_ITEM);
         }
     }

@@ -98,8 +98,7 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         playerSlotsTable.setBackground(new Image(new NinePatch(Assets.getInstance().getAssets().get("skins/statusui/statusui.atlas", TextureAtlas.class).createPatch("dialog"))).getDrawable());
 
         for (int i = 1; i <= numSlots; i++) {
-            Slot slot = new Slot();
-            slot.setId(i + 10);
+            Slot slot = new Slot();slot.setId(i + 9);
             slot.addListener(new SlotToolTipListener(toolTip));
             slot.addObserver(this);
             dragAndDrop.addTarget(new SlotTarget(slot));
@@ -172,14 +171,11 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
             int numItems = slot.getNumItems();
 
-            if (itemName != "") {
                 if (slot.getId() == slotID && slot.getTopItem() == null) {
                     Item item = ItemFactory.instantiate().getItem(itemName);
                     slot.add(item);
                     dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
                 }
-                break;
-            }
         }
     }
 
@@ -215,16 +211,16 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
             int numItems = slot.getNumItems();
 
-            if (slot.getId() == slotID && itemName != "") {
+            if (slot.getId() == slotID) {
                 if (slot.getTopItem() == null && slot.doesAcceptItemType(ItemFactory.instantiate().getItem(itemName).getItemUseType())) {
                     Item item = ItemFactory.instantiate().getItem(itemName);
-                    item.setName(itemName);
                     slot.add(item);
                     dragAndDrop.addSource(new SlotSource(slot, dragAndDrop));
-                    break;
                 } else {
                     System.out.println("Slot doesn't accept item!");
                 }
+            } else {
+                System.out.println("Slot not found! ID: " + slotID);
             }
         }
     }
@@ -324,7 +320,7 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
         if (event == SlotEvent.ADDED_ITEM) {
             InventoryUpdatePacket updatePacket = new InventoryUpdatePacket();
-            if (slot.getId() <= 10) {
+            if (slot.getId() <= 9) {
                 updatePacket.isEquipSlots = true;
                 updatePacket.slotID = slot.getId();
             } else if (slot.getId() >= 10) {
@@ -340,7 +336,8 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
 
         if (event == SlotEvent.REMOVED_ITEM) {
             InventoryUpdatePacket updatePacket = new InventoryUpdatePacket();
-            if (slot.getId() <= 10) {
+            if (slot.getId() <= 9) {
+                System.out.println("Sent remove packet!");
                 updatePacket.isEquipSlots = true;
                 updatePacket.slotID = slot.getId();
             } else if (slot.getId() >= 10) {

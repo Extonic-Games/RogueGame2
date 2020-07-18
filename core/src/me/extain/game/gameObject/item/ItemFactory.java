@@ -46,9 +46,6 @@ public class ItemFactory {
     }
 
     public Item getItem(String name) {
-
-        if (name == "") return getItem("stick");
-
         Item item = new Item(items.get(name));
         TextureAtlas atlas = Assets.getInstance().getAssets().get("items/items.atlas");
         item.setDrawable(new TextureRegionDrawable(atlas.findRegion(name)));
