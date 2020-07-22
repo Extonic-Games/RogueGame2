@@ -1,7 +1,7 @@
 [
 {
 	"itemAttributes": 2,
-	"weaponAttributes": 4,
+	"weaponAttributes": 2,
 	"itemUseType": 8,
 	"itemUseTypeValue": 20,
 	"itemTypeID": "stick",
@@ -11,7 +11,8 @@
 		"maxDamage": 10,
 		"damage": 5,
 		"attackSpeed": 2,
-		"projectile": "Test"
+		"lifeSpan": 30,
+		"projectile": "sword"
 	}
 },
 {
@@ -24,17 +25,8 @@
 	"itemValue": 50
 },
 	{
-	"itemAttributes": 2,
-	"weaponAttributes": 4,
-	"itemUseType": 8,
-	"itemUseTypeValue": 20,
-	"itemTypeID": "stick2",
-	"itemShortDesc": "Just an ordinary stick 2",
-	"itemValue": 50
-},
-	{
 		"itemAttributes": 2,
-		"weaponAttributes": 4,
+		"weaponAttributes": 8,
 		"itemUseType": 8,
 		"itemUseTypeValue": 20,
 		"itemTypeID": "bow",
@@ -45,6 +37,22 @@
 			"damage": 10,
 			"attackSpeed": 1,
 			"projectile": "arrow"
+		}
+	},
+	{
+		"itemAttributes": 2,
+		"weaponAttributes": 2,
+		"itemUseType": 8,
+		"itemUseTypeValue": 20,
+		"itemTypeID": "test-sword",
+		"itemShortDesc": "Just an ordinary sword",
+		"itemValue": 50,
+		"weaponStats": {
+			"maxDamage": 30,
+			"damage": 10,
+			"attackSpeed": 1,
+			"lifeSpan": 30,
+			"projectile": "sword"
 		}
 	}
 ]

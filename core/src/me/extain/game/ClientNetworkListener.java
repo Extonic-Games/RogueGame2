@@ -10,6 +10,7 @@ import com.esotericsoftware.kryonet.Listener;
 
 import me.extain.game.gameObject.Player.Account;
 import me.extain.game.gameObject.Player.Character;
+import me.extain.game.gameObject.Projectile.SwordSlash;
 import me.extain.game.gameObject.item.LootBagObject;
 import me.extain.game.network.Packets.*;
 import org.json.Test;
@@ -113,14 +114,30 @@ public class ClientNetworkListener extends Listener {
 
             if (object instanceof ShootPacket) {
                 ShootPacket packet = (ShootPacket) object;
-                Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), packet.mask);
-                projectile.setDamageRange(packet.damage);
-                if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
-                    GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
 
-                    if (!Box2DHelper.getWorld().isLocked())
-                        gameScreen.getGameObjectManager().addGameObject(projectile);
-                    //System.out.println("Received shootpacket!");
+                if (packet.isSlash) {
+                    SwordSlash slash = ProjectileFactory.getInstance().getSlash(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), packet.mask);
+                    slash.setDamageRange(packet.damage);
+                    slash.setLifeSpan(packet.lifeSpan);
+
+                    if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
+                        GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
+
+                        if (!Box2DHelper.getWorld().isLocked())
+                            gameScreen.getGameObjectManager().addGameObject(slash);
+                        //System.out.println("Received shootpacket!");
+                    }
+                } else {
+                    Projectile projectile = ProjectileFactory.getInstance().getProjectile(packet.name, new Vector2(packet.x, packet.y), new Vector2(packet.velX, packet.velY), packet.mask);
+                    projectile.setDamageRange(packet.damage);
+                    projectile.setLifeSpan(packet.lifeSpan);
+                    if (RogueGame.getInstance().getScreenManager().getCurrentScreen() instanceof GameScreen) {
+                        GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
+
+                        if (!Box2DHelper.getWorld().isLocked())
+                            gameScreen.getGameObjectManager().addGameObject(projectile);
+                        //System.out.println("Received shootpacket!");
+                    }
                 }
             }
 
@@ -159,6 +176,19 @@ public class ClientNetworkListener extends Listener {
             if (object instanceof MessagePacket) {
                 MessagePacket packet = (MessagePacket) object;
                 ((GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen()).getPlayerHUD().addChatMessage(packet.username, packet.message);
+            }
+
+            if (object instanceof InventoryUpdatePacket) {
+                InventoryUpdatePacket packet = (InventoryUpdatePacket) object;
+
+                GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
+
+                if (gameScreen != null) {
+                    if (packet.isAdded) {
+                        System.out.println("Adding item: " + packet.slotID + ", " + packet.itemName);
+                        gameScreen.getPlayerHUD().inventoryUI.addEntityToInventory(packet.slotID, packet.itemName);
+                    }
+                }
             }
     });
     }

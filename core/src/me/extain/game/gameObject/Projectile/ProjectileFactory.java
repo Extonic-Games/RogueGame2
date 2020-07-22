@@ -76,6 +76,23 @@ public class ProjectileFactory {
         }
     }
 
+    public SwordSlash getSlash(String name, Vector2 position, Vector2 velocity, short mask) {
+        ProjectileWrapper wrapper = projectiles.get(name);
+        TextureAtlas atlas = Assets.getInstance().getAssets().get("projectiles/" + wrapper.atlas);
+
+        SwordSlash slash = new SwordSlash(position, Box2DHelper.createSensorBodyRect(4, 10, position, mask));
+        slash.setObjectName(wrapper.name);
+        slash.setMinDamage(wrapper.damage);
+        slash.setMaxDamage(wrapper.maxDamage);
+        slash.setLifeSpan(wrapper.lifespan);
+        slash.setVelocity(velocity);
+        slash.setTexture(atlas.findRegion(name));
+
+        slash.createSprite();
+
+        return slash;
+    }
+
 
 
 }

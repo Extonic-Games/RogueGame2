@@ -24,8 +24,6 @@ public class Projectile extends GameObject {
 
     private Vector2 velocity;
 
-    public short projectileMask = Box2DHelper.BIT_PROJECTILES;
-
     private float lifeSpan = 6 * 16;
 
     public Sprite sprite;
@@ -149,5 +147,9 @@ public class Projectile extends GameObject {
 
     public TextureRegion getTexture() {
         return this.texture;
+    }
+
+    public float getLifeSpan() {
+        return lifeSpan;
     }
 }

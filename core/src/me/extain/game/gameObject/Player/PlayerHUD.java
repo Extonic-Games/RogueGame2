@@ -29,13 +29,11 @@ import me.extain.game.ui.PauseUI;
 
 public class PlayerHUD implements Screen, InventoryObserver {
 
-    private Stage stage;
-    private Viewport viewport;
-    private OrthographicCamera camera;
+    public Stage stage;
     private GameObject player;
-    private InventoryUI inventoryUI;
-    private PauseUI pauseUI;
-    private ChatUI chatUI;
+    public InventoryUI inventoryUI;
+    public PauseUI pauseUI;
+    public ChatUI chatUI;
 
     private Json json;
 
@@ -45,12 +43,10 @@ public class PlayerHUD implements Screen, InventoryObserver {
 
     private Label hpBar;
 
-    private LootbagUI lootbagUI;
+    public LootbagUI lootbagUI;
 
     public PlayerHUD(OrthographicCamera camera, Viewport viewport, GameObject player) {
-        this.camera = camera;
         this.player = player;
-        this.viewport = viewport;
         stage = new Stage(viewport);
 
         this.json = new Json();

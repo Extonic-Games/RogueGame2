@@ -56,11 +56,6 @@ public class GameScreen implements Screen {
 
     private TiledMapRenderer tiledMapRenderer;
 
-    private Socket socket;
-
-    private final float UPDATE_TIME = 1/60f;
-    private float timer;
-
     private Player player;
 
     public GameScreen(RogueGame context) {
@@ -110,31 +105,31 @@ public class GameScreen implements Screen {
         joinPacket.player = player2;
         joinPacket.selectedChar = context.getAccount().getSelectedChar();
         context.getClient().sendTCP(joinPacket);
+
+        if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
+            playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
+            if (player.getEquipItems().size() > 0) {
+
+                for (Map.Entry<Integer, Item> entry : player.getEquipItems().entrySet()) {
+                    if (entry.getValue() != null)
+                        playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue().getItemTypeID());
+                }
+            }
+            if (player.getInventoryItems().size() > 0) {
+                for (Map.Entry<Integer, Item> entry : player.getInventoryItems().entrySet()) {
+                    if (entry.getValue() != null)
+                        playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue().getItemTypeID());
+                }
+            }
+
+            InputMultiplexer multiplexer = new InputMultiplexer();
+            multiplexer.addProcessor(playerHUD.getStage());
+            Gdx.input.setInputProcessor(multiplexer);
+        }
     }
 
     public void update(float delta) {
         box2DHelper.step();
-
-            if (playerHUD == null && Assets.getInstance().getAssets().isLoaded("skins/statusui/statusui.atlas")) {
-                playerHUD = new PlayerHUD(context.getUICamera(), RogueGame.getInstance().getUiViewport(), player);
-                if (player.getEquipItems().size() > 0) {
-
-                    for (Map.Entry<Integer, Item> entry : player.getEquipItems().entrySet()) {
-                        if (entry.getValue() != null)
-                            playerHUD.getInventoryUI().addItemToEquip(entry.getKey(), entry.getValue().getItemTypeID());
-                    }
-                }
-                if (player.getInventoryItems().size() > 0) {
-                    for (Map.Entry<Integer, Item> entry : player.getInventoryItems().entrySet()) {
-                        if (entry.getValue() != null)
-                            playerHUD.getInventoryUI().addEntityToInventory(entry.getKey(), entry.getValue().getItemTypeID());
-                    }
-                }
-
-                InputMultiplexer multiplexer = new InputMultiplexer();
-                multiplexer.addProcessor(playerHUD.getStage());
-                Gdx.input.setInputProcessor(multiplexer);
-            }
 
             if (!playerHUD.isChatVis()) {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.T)) playerHUD.showChat(true);
@@ -183,7 +178,7 @@ public class GameScreen implements Screen {
 
             batch.end();
 
-            //box2DHelper.render(context.getCamera());
+            box2DHelper.render(context.getCamera());
 
             if (playerHUD != null)
                 playerHUD.render(Gdx.graphics.getDeltaTime());

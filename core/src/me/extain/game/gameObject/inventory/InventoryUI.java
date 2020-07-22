@@ -27,9 +27,9 @@ import me.extain.game.network.Packets.InventoryUpdatePacket;
 
 public class InventoryUI extends Window implements InventorySubject, SlotObserver {
 
-    public final static int numSlots = 20;
-    public static final String PLAYER_INVENTORY = "Player_Inventory";
-    public static final String STORE_INVENTORY = "Store_Inventory";
+    public static int numSlots = 20;
+    public static String PLAYER_INVENTORY = "Player_Inventory";
+    public static String STORE_INVENTORY = "Store_Inventory";
 
     private int lengthSlotRow = 10;
     private Table inventorySlotTable;
@@ -98,7 +98,8 @@ public class InventoryUI extends Window implements InventorySubject, SlotObserve
         playerSlotsTable.setBackground(new Image(new NinePatch(Assets.getInstance().getAssets().get("skins/statusui/statusui.atlas", TextureAtlas.class).createPatch("dialog"))).getDrawable());
 
         for (int i = 1; i <= numSlots; i++) {
-            Slot slot = new Slot();slot.setId(i + 9);
+            Slot slot = new Slot();
+            slot.setId(i + 9);
             slot.addListener(new SlotToolTipListener(toolTip));
             slot.addObserver(this);
             dragAndDrop.addTarget(new SlotTarget(slot));

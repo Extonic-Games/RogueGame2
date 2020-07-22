@@ -1,6 +1,6 @@
 
 projectiles.png
-size: 64,32
+size: 128,32
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -21,6 +21,13 @@ Test
 arrow
   rotate: false
   xy: 24, 4
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+sword
+  rotate: false
+  xy: 64, 4
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

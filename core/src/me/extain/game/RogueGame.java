@@ -98,14 +98,6 @@ public class RogueGame extends ApplicationAdapter {
 		screenManager.addScreen("MainMenu", new MainMenuScreen(this));
 		screenManager.addScreen("CharacterSelection", new CharacterSelectionScreen(this));
 		screenManager.changeScreen("MainMenu");
-
-		//setScreen(new GameScreen(this));
-
-
-		//dungeonMap = new DungeonMap(this, 70, 70);
-
-		//connectSocket();
-		//socketEvents(this);
 	}
 
 	public OrthographicCamera getCamera() {

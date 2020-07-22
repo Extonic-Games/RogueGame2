@@ -19,5 +19,12 @@
     "maxDamage": 40,
     "lifespan": 10,
     "atlas": "projectiles.atlas"
+  },
+  {
+    "name": "sword",
+    "damage": 10,
+    "maxDamage": 40,
+    "lifespan": 60,
+    "atlas": "projectiles.atlas"
   }
 ]
