@@ -16,14 +16,18 @@ public class Character {
     public HashMap<Integer, Item> equipItems;
     public HashMap<Integer, Item> inventoryItems;
 
+    public PlayerStats playerStats;
+
     public Character() {
         equipItems = new HashMap<>();
         inventoryItems = new HashMap<>();
+        playerStats = new PlayerStats();
     }
 
     public Character(int id, int accountID) {
         equipItems = new HashMap<>();
         inventoryItems = new HashMap<>();
+        playerStats = new PlayerStats();
     }
 
     public void setId(int id) {
@@ -88,6 +92,14 @@ public class Character {
 
     public int getAccountID() {
         return accountID;
+    }
+
+    public PlayerStats getPlayerStats() {
+        return playerStats;
+    }
+
+    public void setPlayerStats(PlayerStats playerStats) {
+        this.playerStats = playerStats;
     }
 }
 

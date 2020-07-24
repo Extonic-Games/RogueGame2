@@ -48,6 +48,8 @@ public class Player extends GameObject {
     public HashMap<Integer, Item> equipItems;
     public HashMap<Integer, Item> inventoryItems;
 
+    private PlayerStats playerStats;
+
     public Player(Vector2 position) {
         super(position, Box2DHelper.createDynamicBodyCircle(position, 4f, Box2DHelper.BIT_PLAYER));
 
@@ -56,6 +58,8 @@ public class Player extends GameObject {
         this.getBody().setUserData(this);
 
         this.setSpeed(30);
+
+        playerStats = new PlayerStats();
 
         oldPos = new Vector2(0,0);
 
@@ -78,6 +82,9 @@ public class Player extends GameObject {
         this(position);
 
         this.character = character;
+        playerStats = character.getPlayerStats();
+
+        System.out.println("Level: " + playerStats.getLevel() + ", XP: " + playerStats.getXp());
 
         equipItems = character.getEquipItems();
         inventoryItems = character.getInventoryItems();
@@ -138,9 +145,7 @@ public class Player extends GameObject {
             float angle = MathUtils.radiansToDegrees * MathUtils.atan2(dirX - this.getPosition().x, dirY - this.getPosition().y);
 
             ShootPacket packet = new ShootPacket();
-            packet.name = "Test";
-            packet.id = this.getID();
-            packet.mask = Box2DHelper.BIT_PROJECTILES;
+            packet.id = RogueGame.getInstance().getClient().getID();
             packet.x = this.getPosition().x - (dirX / 3);
             packet.y = this.getPosition().y - (dirY / 3);
             packet.velX = -dirX;
@@ -199,5 +204,9 @@ public class Player extends GameObject {
 
     public void setPosition(float x, float y) {
         this.setPosition(new Vector2(x, y));
+    }
+
+    public PlayerStats getPlayerStats() {
+        return playerStats;
     }
 }

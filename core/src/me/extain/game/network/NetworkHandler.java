@@ -12,6 +12,7 @@ import com.esotericsoftware.kryonet.EndPoint;
 
 import Server.ServerPlayer;
 import me.extain.game.gameObject.Player.Player;
+import me.extain.game.gameObject.Player.PlayerStats;
 import me.extain.game.gameObject.Player.RemotePlayer;
 import me.extain.game.gameObject.item.Item;
 import me.extain.game.gameObject.item.WeaponStats;
@@ -62,6 +63,8 @@ public class NetworkHandler {
         kryo.register(Scaling.class);
         kryo.register(Touchable.class);
         kryo.register(WeaponStats.class);
+        kryo.register(PlayerStatsPacket.class);
+        kryo.register(PlayerStats.class);
     }
 
 }

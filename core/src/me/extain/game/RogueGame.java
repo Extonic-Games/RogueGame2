@@ -159,6 +159,11 @@ public class RogueGame extends ApplicationAdapter {
 		super.dispose();
 		assets.dispose();
 		screenManager.dispose();
+		try {
+			client.dispose();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Account getAccount() {

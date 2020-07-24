@@ -26,8 +26,9 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="39c1dfa6-8bcb-4d08-a069-0fd9feb4cdf2" name="Default Changelist" comment="Fixed the inventory.">
-      <change afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Projectile/SwordSlash.java" afterDir="false" />
+    <list default="true" id="39c1dfa6-8bcb-4d08-a069-0fd9feb4cdf2" name="Default Changelist" comment="Added a sword slash projectile, allowed server to send inventory updates to client.">
+      <change afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/PlayerStats.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/src/me/extain/game/network/Packets/PlayerStatsPacket.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/fileHashes/fileHashes.bin" afterDir="false" />
@@ -38,41 +39,34 @@
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/6.3/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/6.3/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/html/RogueGame2.html.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/html/RogueGame2.html.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/assets/items/items.atlas" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/items/items.atlas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/assets/items/items.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/items/items.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/assets/items/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/items/test.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/assets/projectiles/projectiles.atlas" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/projectiles/projectiles.atlas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/assets/projectiles/projectiles.json" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/projectiles/projectiles.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/assets/projectiles/projectiles.png" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/projectiles/projectiles.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ClientNetworkListener$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ClientNetworkListener$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/assets/skins/statusui/statusui.json" beforeDir="false" afterPath="$PROJECT_DIR$/core/assets/skins/statusui/statusui.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ClientNetworkListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ClientNetworkListener.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/Box2DHelper.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/Box2DHelper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/BoxContactListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/Physics/BoxContactListener.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/RogueGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/RogueGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/PlayerHUD.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/PlayerHUD.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/Projectile.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/Projectile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/Character.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/Character.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Player/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/ProjectileFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/Projectile/ProjectileFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/inventory/InventoryUI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/WeaponStats.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/gameObject/item/WeaponStats.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/ShootPacket.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/Packets/ShootPacket.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/GameScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/screens/GameScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/NetworkHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/network/NetworkHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ui/ChatUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/classes/java/main/me/extain/game/ui/ChatUI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/ClientNetworkListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/ClientNetworkListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/Physics/Box2DHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/Physics/Box2DHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/Physics/BoxContactListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/Physics/BoxContactListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/RogueGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/RogueGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/PlayerHUD.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/PlayerHUD.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Projectile/Projectile.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Projectile/Projectile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/Character.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/Character.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Player/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Projectile/ProjectileFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/Projectile/ProjectileFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/inventory/InventoryUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/inventory/InventoryUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/item/WeaponStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/gameObject/item/WeaponStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/network/Packets/ShootPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/network/Packets/ShootPacket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/screens/GameScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/screens/GameScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/items/items.atlas" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/items/items.atlas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/items/items.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/items/items.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/network/NetworkHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/network/NetworkHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/src/me/extain/game/ui/ChatUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/core/src/me/extain/game/ui/ChatUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/items/test.json" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/items/test.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/projectiles/projectiles.atlas" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/projectiles/projectiles.atlas" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/projectiles/projectiles.json" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/projectiles/projectiles.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/projectiles/projectiles.png" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/projectiles/projectiles.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/build/resources/main/skins/statusui/statusui.json" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/build/resources/main/skins/statusui/statusui.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/squidlib-3.0.0-b10.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/squidlib-extra-3.0.0-b10.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/squidlib-util-3.0.0-b10.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +291,14 @@
       <option name="project" value="LOCAL" />
       <updated>1595032233101</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added a sword slash projectile, allowed server to send inventory updates to client.">
+      <created>1595452054704</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1595452054704</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,7 +344,8 @@
     <MESSAGE value="Added weapon stats. Added projectile trails, enemy hit effets, and outlines around projectiles." />
     <MESSAGE value="Fixed loot bags, added bow item. Started cleaning up code." />
     <MESSAGE value="Fixed the inventory." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the inventory." />
+    <MESSAGE value="Added a sword slash projectile, allowed server to send inventory updates to client." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a sword slash projectile, allowed server to send inventory updates to client." />
   </component>
   <component name="WindowStateProjectService">
     <state x="657" y="139" key="#DesktopLauncher" timestamp="1589477653772">
@@ -374,25 +376,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="260" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1594846513690" />
-    <state width="1877" height="173" key="GridCell.Tab.0.bottom" timestamp="1595451510840">
+    <state width="1877" height="173" key="GridCell.Tab.0.bottom" timestamp="1595604353708">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="173" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595451510840" />
+    <state width="1877" height="173" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595604353707" />
     <state width="1877" height="176" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1593558850160" />
-    <state width="1877" height="173" key="GridCell.Tab.0.center" timestamp="1595451510839">
+    <state width="1877" height="173" key="GridCell.Tab.0.center" timestamp="1595604353707">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="173" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595451510839" />
+    <state width="1877" height="173" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595604353707" />
     <state width="1877" height="176" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1593558850160" />
-    <state width="1877" height="173" key="GridCell.Tab.0.left" timestamp="1595451510839">
+    <state width="1877" height="173" key="GridCell.Tab.0.left" timestamp="1595604353707">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="173" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595451510839" />
+    <state width="1877" height="173" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595604353707" />
     <state width="1877" height="176" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1593558850160" />
-    <state width="1877" height="173" key="GridCell.Tab.0.right" timestamp="1595451510840">
+    <state width="1877" height="173" key="GridCell.Tab.0.right" timestamp="1595604353707">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="173" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595451510840" />
+    <state width="1877" height="173" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595604353707" />
     <state width="1877" height="176" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1593558850160" />
     <state width="1877" height="266" key="GridCell.Tab.1.bottom" timestamp="1595031526674">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -414,10 +416,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="164" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1592158854270" />
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1595032234628">
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2" timestamp="1595452057629">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595032234628" />
+    <state x="552" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1595452057629" />
     <state x="769" y="433" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1594740863720">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

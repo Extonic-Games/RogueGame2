@@ -190,6 +190,20 @@ public class ClientNetworkListener extends Listener {
                     }
                 }
             }
+
+            if (object instanceof PlayerStatsPacket) {
+                PlayerStatsPacket packet = (PlayerStatsPacket) object;
+
+                GameScreen gameScreen = (GameScreen) RogueGame.getInstance().getScreenManager().getCurrentScreen();
+
+                Player player = gameScreen.getTileMap().getPlayer();
+                player.getPlayerStats().setLevel(packet.level);
+                player.getPlayerStats().setXp(packet.xp);
+                player.getPlayerStats().setAttack(packet.attack);
+
+                System.out.println(player.getPlayerStats().getLevel());
+                System.out.println(player.getPlayerStats().getXp());
+            }
     });
     }
 }

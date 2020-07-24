@@ -47,10 +47,6 @@ public class ProjectileFactory {
 
         if (wrapper != null) {
             Projectile projectile = new Projectile(position, Box2DHelper.createDynamicBodyCircle(position, 2.5f, mask));
-            projectile.setObjectName(wrapper.name);
-            projectile.setMinDamage(wrapper.damage);
-            projectile.setMaxDamage(wrapper.maxDamage);
-            projectile.setLifeSpan(wrapper.lifespan);
             TextureAtlas atlas = Assets.getInstance().getAssets().get("projectiles/" + wrapper.atlas);
             projectile.setTexture(atlas.findRegion(name));
             projectile.setVelocity(velocity);

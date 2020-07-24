@@ -16,8 +16,8 @@ public class WeaponStats {
         this.damage = damage;
         this.maxDamage = maxDamage;
         this.attackSpeed = attackSpeed;
-        this.projectile = projectile;
         this.lifeSpan = lifeSpan;
+        this.projectile = projectile;
     }
 
     public float getMaxDamage() {

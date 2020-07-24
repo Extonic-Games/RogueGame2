@@ -34,7 +34,7 @@ public class BoxContactListener implements ContactListener {
             GameObject object = (GameObject) bodyA.getUserData();
             Projectile projectile = (Projectile) bodyB.getUserData();
 
-            if (!(object instanceof Projectile)) {
+            if (!(object instanceof Projectile) && !fixtureA.isSensor()) {
                 projectile.setDestroy(true);
                 object.onHit(object, projectile.getDamageRange());
             }
@@ -42,7 +42,7 @@ public class BoxContactListener implements ContactListener {
             GameObject object = (GameObject) bodyB.getUserData();
             Projectile projectile = (Projectile) bodyA.getUserData();
 
-            if (!(object instanceof Projectile)) {
+            if (!(object instanceof Projectile) && !fixtureB.isSensor()) {
                 projectile.setDestroy(true);
                 object.onHit(object, projectile.getDamageRange());
             }

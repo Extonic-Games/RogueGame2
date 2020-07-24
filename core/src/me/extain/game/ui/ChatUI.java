@@ -105,9 +105,9 @@ public class ChatUI extends Window {
 
     public void addMessage(String message) {
         textArea.row();
-        TextArea chatArea = new TextArea(message, Assets.getInstance().getStatusSkin(), "chatBox");
+        Label chatArea = new Label(message, Assets.getInstance().getStatusSkin(), "chatBox");
         chatArea.setHeight(100);
-        chatArea.setDisabled(true);
+        chatArea.setWrap(true);
         textArea.add(chatArea).height(20).width(350).pad(1f).left();
         scrollPane.layout();
         scrollPane.scrollTo(0, 0, 0, 0);
